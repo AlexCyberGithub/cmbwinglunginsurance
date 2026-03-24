@@ -1,0 +1,189 @@
+﻿/*
+For the font end web view javascript function to use.
+*/
+jQuery.noConflict();
+(function($) {
+
+    //daynamic create hidden element to form post.
+        $.fn.createHidden = function (name, value) {
+            
+            return '<input type="hidden" name="' + name + '" value="' + value + '"/>';
+        }
+        
+        //validation
+        //set the error message to the display element
+        $.fn.updateErrorMsg = function (isActive, errorMsg, styleClass) {
+            if (isActive) {
+                $(this).text(errorMsg);
+                $(this).addClass(styleClass);
+            } else {
+                $(this).text('');
+                $(this).removeClass(styleClass);
+            }
+        }
+        // required validation function
+        $.fn.required = function (errorElement, errorMsg, styleClass) {
+            if (!$(this).val()) {
+                errorElement.updateErrorMsg(true, errorMsg, styleClass);
+                return false;
+            } else {
+                errorElement.updateErrorMsg(false, '', styleClass);
+                return true;
+            }
+        }
+        
+        $.fn.dropdownAjax = function (url, postData, targetElement) {
+            $.ajax({
+                type: "POST",
+                url: document.location.origin + url,
+                //url: document.location.origin + "/Common/AjaxGetJobOccupationList",
+                data: postData,//{}
+                dataType: "JSON",
+                success: function (result) {
+                    var options;
+                    for (var i = 0; i < result.length; i++) {
+                        if (result[i].Selected) {
+
+                            options += "<option value=" + result[i].Value + " selected>" + result[i].Text + "</option>";
+                        } else {
+                            options += "<option value=" + result[i].Value + ">" + result[i].Text + "</option>";
+                        }
+                    }
+                    $(targetElement).html(options);
+                }
+            });
+        }
+    
+        $.fn.createFormValidation = function () {
+            $(this).validate({
+                //debug:true,
+                ignore: ".ignore",
+                errorClass: 'error-msg',
+                validClass: 'success',
+                errorElement: 'span',
+                focusInvalid: false,
+                invalidHandler: function (e, validator) {
+                    var positionTop = validator.errorList[0].element.getBoundingClientRect().top;
+                    positionTop = Math.abs(positionTop);
+                    $("html, body").animate({
+                        scrollTop: positionTop
+                    }, 600);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    //$(element).closest("div.col-md-6").addClass(errorClass).removeClass(validClass);
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    //$(element).closest("div.col-md-6").removeClass(errorClass).addClass(validClass);
+                },
+                errorPlacement: function (error, element) {
+                    if ($(element).siblings("div.error-msg").length) {
+                        error.appendTo($(element).siblings("div.error-msg"));
+                    } else {
+                        error.appendTo($(element).parent('div').siblings("div.error-msg"));
+                    }
+                }
+            });
+            }
+
+        $.fn.createClaimFormValidation = function () {
+                $(this).validate({
+                    //debug:true,
+                    errorClass: 'error-msg',
+                    validClass: 'success',
+                    errorElement: 'span',
+                    focusInvalid: false,
+                    onkeyup: false,
+                    onfocusout: function (element) {
+                        if ($(element).prop('name')) {
+                            this.element("[name=" + $(element).prop('name') + "]");
+                        }
+                    },
+                    invalidHandler: function (e, validator) {
+                        var positionTop = validator.errorList[0].element.getBoundingClientRect().top;
+                        positionTop = Math.abs(positionTop);
+                        $("html, body").animate({
+                            scrollTop: positionTop
+                        }, 600);
+                    },
+                    highlight: function (element, errorClass, validClass) {
+                        //$(element).closest("div.col-md-6").addClass(errorClass).removeClass(validClass);
+                    },
+                    unhighlight: function (element, errorClass, validClass) {
+                        //$(element).closest("div.col-md-6").removeClass(errorClass).addClass(validClass);
+                    },
+                    errorPlacement: function (error, element) {
+                        if ($(element).siblings("div.error-msg").length) {
+                            $(element).siblings("div.error-msg").empty();
+                            error.appendTo($(element).siblings("div.error-msg"));
+                        } else {
+                            $(element).parent('div').siblings("div.error-msg").empty();
+                            error.appendTo($(element).parent('div').siblings("div.error-msg"));
+                        }
+                    }
+                });  
+            }
+
+        
+        $.fn.removeRules = function(){
+            //elm = jquery object
+         for (var i=0; i < this.length; i++){
+             var elm = this[i];
+                if (elm.length && !$.isEmptyObject(elm.rules())) {        
+                        elm.rules("remove");
+                    }
+                }
+        }
+        
+        $.fn.elmAddRule = function(ruleObj){
+            if (this.length) {
+                this.rules( "add", ruleObj);
+            }
+        }
+        
+        $.fn.countDown = function(btnElm,secondsElm, sec){
+        btnElm.prop('disabled', true);
+        function pad ( val ) { return val > 9 ? val : "0" + val; }
+        
+            var timer = setInterval(function () {
+                if (sec>0) {
+                    secondsElm.text(" ( " + pad(--sec) + " )");
+                    }else{
+                    clearInterval(timer);
+                    secondsElm.text("");
+                    btnElm.prop('disabled', false);
+                }
+            },  1000);
+    }
+
+        $.fn.warningPopup = function (content) {
+            if ($('#warningModal').length) {
+                $('#warningModalContent').text(content);
+                $('#warningModal').modal('show');
+                }
+        }
+        
+        $(function () {
+            //ui field event.
+            $(document).on('blur', 'textarea', function () {
+                $(this).val($(this).val().trim());
+            });
+
+            $(document).on('blur', 'input', function (e) {
+                var trimVal = $(this).val().trim();
+                    $(this).val(trimVal);
+            
+            });
+
+            $(document).on('blur', 'input.decimal', function (e) {
+                var trimVal = $(this).val().trim();
+                trimVal = trimVal.replace(',','');
+                if ($.isNumeric(trimVal)) {
+                    trimVal = Number(trimVal);
+                    $(this).val(trimVal.toFixed(2));
+                } else {
+                    $(this).val(trimVal);
+                }
+            });
+
+        });
+    })(jQuery)	

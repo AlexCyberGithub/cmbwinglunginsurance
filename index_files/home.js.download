@@ -1,0 +1,139 @@
+jQuery.noConflict();
+(function ($) {
+
+
+    function Responsive() {
+        var windowsize = $(window).width();
+        /* ============ desktop ============ */
+        if (windowsize > 768) {
+            //quickQuote
+            $('.quickquote-outer').hover(function () {
+                $('.quickquote-outer').removeClass('active');
+                $(this).addClass('active');
+            }, function () {
+                $(this).removeClass('active');
+            });
+            //$('.carousel-caption>p').remove('.icon_arrowRight');
+            $('.quickquote-txt').show();
+
+        }
+        /* ============ mobile ============ */
+        else {
+            //carousel
+            //$('.carousel-caption>p').append($('<i class="icon icon_arrowRight"></i>'));
+            //quickQuote
+            $('.quickquote-inner').click(function (e) {
+                e.stopPropagation();
+                $('body').addClass('noScroll');
+                $($(this).data('target')).show();
+            });
+            $('.quickquote-outer').unbind('mouseenter mouseleave');
+
+            $('.quickquote-txt').hide();
+        }
+    }
+
+    $(document).ready(function () {
+
+        //update the UI event
+        Responsive();
+		//quickQuoteModal
+    	$('.btn-quote').click(function(e) {
+    	  e.stopPropagation();
+		  $($(this).data('target')).show();
+		  $("html, body").animate({
+	            scrollTop: 0
+		  }, 600);
+		  //$('.overally').addClass('cover');
+		  //$('body').addClass('noScroll');
+	      return false;
+		});
+		$(document).click(function(){
+  		  $('.modal-quickQuote').hide();
+  		});
+		$('.close').click(function(e){
+		  e.stopPropagation();
+		  $('.modal-quickQuote').hide();
+		  $('body').removeClass('noScroll');
+  		});      
+		//option
+
+	    //travel type selection
+		$('ul.type>li').click(function () {
+		    $('ul.type>li').removeClass('active');
+		    $(this).addClass('active');
+		    var selectedType = $(this).children('div.quote-field-txt').attr('id');
+		    $('#TravelType').val(selectedType);
+		    //update the date UI.
+		    $.fn.ChangeDate(selectedType);
+		});
+	    //travel insured cate selection
+		$('ul.insuredCate>li').click(function () {
+		    $('ul.insuredCate>li').removeClass('active');
+		    $(this).addClass('active');
+		    var selectedCate = $(this).children('div.quote-field-txt').attr('id');
+		    $('#InsuredCategory').val(selectedCate);
+		    //update the insured cate UI
+		    $.fn.ChangeInsuredCategory(selectedCate);
+		});
+
+		$('ul.hometype>li').click(function() {
+			$('ul.hometype>li').removeClass('active');
+    	    $(this).addClass('active');
+    	    if ( $(this).hasClass( 'homeowner-option' ) ) {
+    	    	$('.homeowner-content').css('opacity', '1');
+    	    } else{
+    	    	$('.homeowner-content').css('opacity', '0');
+    	    }
+		});
+		//call&email
+		$('ul.contactType>li').click(function() {
+			$('ul.contactType>li').removeClass('active');
+    	    $(this).addClass('active');
+    	    $('.contact-info').hide();
+    	    $($(this).data('id')).show();
+		});	
+		//contactHelp
+		$( '.contact-help-card' ).hover(function() {
+			$( '.contact-help-card' ).removeClass('active');
+		    $( this ).addClass( 'active' );
+		  	}, function() {
+		    $( this ).removeClass( 'active' );
+            });    
+
+        //responsive
+        $(window).resize(function () {
+            Responsive();
+        });
+
+         //download app
+        $('.btn-download').click(function () {
+            $('.download-app-modal').toggle();
+        });
+
+	    /* ============ slider draggable ======== */
+		$(".carousel").on("touchstart", function (event) {
+		    var xClick = event.originalEvent.touches[0].pageX;
+
+		    $(this).one("touchmove", function (event) {
+		        var xMove = event.originalEvent.touches[0].pageX;
+		        if (Math.floor(xClick - xMove) > 5) {
+		            $(this).carousel('next');
+		        }
+		        else if (Math.floor(xClick - xMove) < -5) {
+		            $(this).carousel('prev');
+		        }
+		    });
+		    $(".carousel").on("touchend", function () {
+		        $(this).off("touchmove");
+		    });
+		});
+
+	    // /* ============ disable scroll when opening modal ============*/
+	    // $('.modal').on('show.bs.modal', function () {
+	    // 	$("body").css('overflow', 'hidden');
+	    // }).on("hidden", function () {
+	    //     $("body").css('overflow', 'auto');
+	    // });
+	});
+})(jQuery)	

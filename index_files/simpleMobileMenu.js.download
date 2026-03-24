@@ -1,0 +1,67 @@
+(function ( $ ) {
+ 
+    $.fn.smplmnu = function(options) {
+
+    	//settings
+    	var settings = $.extend({
+            // These are the defaults.
+            background: "#f0f0f0",
+            speed: "0.5s",
+            textColor: "#474747"
+        }, options );
+
+
+    	//vars
+    	var hittrigger = $(this);
+    	var clspos = hittrigger.next('ul');
+    	var menutextcolor = hittrigger.next('ul li a');
+    	var overllay = '<div class="overally"></div>';
+
+    	//manipulating dom
+    	hittrigger.addClass('inrwrpr');
+    	clspos.addClass('inrwrpr');
+    	$('.inrwrpr').wrapAll( "<div class='navwrp'>" );
+    	$('.navwrp').prepend('<a href="javascript:void(0)" class="mnuclose"><i class="icon icon_cancel"></i></a>');
+    	$('body').prepend(overllay);
+        
+    	
+ 		
+ 		//functions and methods
+        hittrigger.click(function(event){
+			hittrigger.next('ul').addClass('mobimenu');
+            $('.smobitrigger').hide();
+            $('.mnuclose').show();
+		    $('.mobimenu').addClass('mnuopn');
+		    $('.mnuopn').css({
+		    	'z-index': '99',
+		    	'background-color': settings.background,
+		    	'transition': settings.speed
+		    });
+		    $('.mnuopn a').css({
+		    	'color': settings.textColor
+		    });
+		    $('.overally').addClass('ovrActv');
+            $('body').addClass('noScroll');
+		});
+
+        $('.mnuclose').click(function(event) {
+            $('.smobitrigger').show();
+            $('.mnuclose').hide();
+			hittrigger.next('ul').removeClass('mnuopn');
+			$('.overally').removeClass('ovrActv');
+            $('body').removeClass('noScroll');
+		});
+
+		$('.overally').click(function(event) {
+            $('.smobitrigger').show();
+            $('.mnuclose').hide();
+			clspos.removeClass('mnuopn');
+			$(this).removeClass('ovrActv');
+            $('body').removeClass('noScroll');
+		});
+
+		return this				
+ 
+    };
+ 
+}( jQuery ));

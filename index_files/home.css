@@ -1,0 +1,1183 @@
+/* ============ index =========== */
+#carouselHomepage{
+    margin-top: 84px;
+}
+.carousel-caption {
+    top: 60px;
+    text-align: left;
+}
+.carousel-caption h1.caption{
+	font-size: 50px;
+}
+.carousel-caption p{
+	font-size: 24px;
+	padding-bottom: 25px;
+}
+.carousel-caption-hr {
+    width: 100px;
+    border-bottom: 1px solid #fff;
+    opacity: 0.4;
+    margin-bottom: 35px;
+}
+.carousel-caption a{
+	font-size: 18px;
+	color: #fff;
+    padding-top: 40px;
+}
+.carousel-caption .icon_arrowRight{
+    margin-left: 0.75rem;
+}
+.quickQuote {
+    margin-top: -65px;
+    position: relative;
+}
+.quickquote-row{
+    box-shadow: 0px 0px 5px 5px rgba(0,0,0,0.1);
+}
+.quickquote-outer {
+    background: rgba(202,44,64,1);
+    text-align: center;
+    padding: 20px 30px;
+    overflow:hidden;
+    border-left: 1px solid rgba(241,241,241,0.2);
+    cursor: pointer;
+    height: 210px;
+    transition: background-color .1s ease-in-out;
+}
+.row>.quickquote-outer:first-child{
+    border-left: 0;
+}
+.quickquote-title {
+    font-size: 20px;
+    color: #fff;
+    line-height: 1.1;
+    margin: 12px 0 12px 0;
+    position: relative;
+}
+.quickquote-txt {
+    font-size: 12px;
+    color: #ffbdc5;
+    position: relative;
+    opacity: .8;
+}
+.quickQuote h2{
+	color: #fff;
+	text-shadow: rgba(0,0,0,.47) 0.1em 0.1em 0.2em;
+	margin: 0 0 20px -7.5px;
+}
+.btn-quote{
+    margin-top: 20px;
+    width: 100%;
+    max-width: 200px;
+    position: absolute;
+    left: 50%;
+    bottom: -100px;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: transform .35s ease-in-out !important;
+}
+.quickquote-outer.active .btn-quote{
+    opacity: 1;
+    bottom: -60px;
+}
+.quickquote-outer img{
+    margin-top: 5px;
+    height: 56px;
+    width: auto;
+}
+.quickquote-outer.active{
+    background: rgba(255,255,255,1);
+    box-shadow: 0px 0px 5px 5px rgba(0,0,0,0.13);
+}
+.quickquote-inner{
+    transition: transform .2s ease-in-out;
+    position: relative;
+    height: 170px;
+}
+.quickquote-outer.active .quickquote-title {
+    color: #ca2c40;
+}
+.quickquote-outer.active .quickquote-txt {
+    color: #757575;
+}
+.quickquote-outer.active img{
+    opacity: 0;
+}
+.quickquote-outer.active .quickquote-inner{
+  transform: translateY(-65px);
+}
+.modal-quickQuote{
+    display: none;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    z-index: 7;
+}
+.modal-homepage-left{
+    padding: 15px;
+    text-align: center;
+    border-right: 1px solid #e2e2e2;
+    height: 535px;
+}
+.modal-homepage-left img{
+    padding-top: 30px;
+}
+.modal-quote-title {
+    font-size: 30px;
+    margin: 25px auto;
+    line-height: 1.2;
+}
+.modal-quote-hr {
+    width: 60px;
+    border: 1px solid #ca2c40;
+    margin: 15px auto;
+}
+.modal-quote-txt {
+    color: #737373;
+    font-size: 16px;
+    margin-top: 25px;
+}
+.quote-field-title {
+    margin-bottom: 10px;
+}
+.modal-homepage-right {
+    padding: 0 100px;
+}
+ul.type>li, ul.hometype>li{
+    display: inline-block;
+    text-align: center;
+    position: relative;
+    width: 48.75%;
+    margin-left: 2.5%;
+    border:1px solid #e1e1e1;
+    border-radius: 5px;
+    padding: 10px 0 0px 0;
+    cursor: pointer;
+}
+ul.type .icon_info{
+    position: absolute;
+    top: 3px;
+    right: 3px;
+}
+ul.type .popover{
+    width: 150%;
+}
+ul.travelDate>li{
+    display: inline-block;
+    text-align: center;
+    width: 48.75%;
+    margin-left: 2.5%;
+    border:1px solid #e1e1e1;
+    border-radius: 5px;
+    padding: 22px 0 0px 0;
+    cursor: pointer;
+    position: relative;
+}
+ul.insuredCate>li{
+    display: inline-block;
+    text-align: center;
+    width: 31.66667%;
+    margin-left: 2.5%;
+    border:1px solid #e1e1e1;
+    border-radius: 5px;
+    padding: 10px 0 0px 0;
+    cursor: pointer;
+}
+ul.personNum>li, ul.personType>li{
+    display: inline-block;
+    text-align: left;
+    width: 48.75%;
+    margin-left: 2.5%;
+    cursor: pointer;
+    margin-bottom:20px;
+}
+ul.type>li:first-child, 
+ul.travelDate>li:first-child, 
+ul.insuredCate>li:first-child,
+ul.personNum>li:first-child,
+ul.hometype>li:first-child,
+ul.personType>li:first-child{
+    margin-left: 0;
+}
+ul.type>li:after, ul.insuredCate>li:after, ul.hometype>li:after {
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+    display:block;
+    content: '';
+    margin-top: 5px;
+    border-bottom: 3px solid #ca2c40;  
+    transform: scaleX(0);  
+    transition: transform 250ms ease-in-out;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+ul.type>li.active:after, ul.insuredCate>li.active:after, ul.hometype>li.active:after{ 
+    transform: scaleX(1); 
+}
+ul.type>li:hover, ul.insuredCate>li:hover, ul.hometype>li:hover{
+    background-color: #f8f8f8;
+}
+ul.travelDate>li>.datepicker{
+    border: none;
+    border-radius: 4px;
+    padding: 0;
+    text-align: center;
+    font-size: 18px;
+    margin-top: -5px;
+    height: 30px;
+    box-shadow: none;
+}
+ul.travelDate>li .datepicker:focus{
+    box-shadow: none;
+}
+.travelDate-txt{
+    font-size: 18px;
+    position: absolute;
+    top: 12.5px;
+    pointer-events: none;
+    width: 100%;
+    transition: 0.2s ease all;
+}
+.float-txt.focus{
+    top: 5px;
+    font-size: 12px;
+}
+.modal-homepage-right .tips {
+    margin: 40px 0 20px;
+}
+.tips span{
+    display: block;
+    margin-left: 30px;
+    margin-top: -20px;
+}
+.btn-quoteNow{
+    width: 200px;
+    margin-top: 20px;
+}
+.select-two-01 {
+    width: 40%;
+    display: inline-block;
+}
+.select-two-02 {
+    width: 57.5%;
+    display: inline-block;
+    float: right;
+}
+#homeModal .select-two-01 .form-control,
+#homeModal .select-two-02 .form-control{
+    height: 50px;
+    font-size: 16px;
+}
+#homeModal .select-two-01:after,
+#homeModal .select-two-02:after{
+    top: 18px;
+}
+select.form-control {
+    box-shadow: none;
+    border-radius: 4px;
+    border: 1px solid #e1e1e1;
+}
+input.insuredAmount{
+    max-width: 295px;
+    margin-left: 70px;
+    margin-top: 15px;
+}
+input.datepicker-insuranced{
+    height: 50px;
+    text-align: center;
+    font-size: 20px;
+    border: 1px solid #e1e1e1;
+    border-radius: 4px;
+    box-shadow: none;
+}
+.personalInfo {
+    border-top: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 20px 0 10px 0;
+    margin: 40px 0 0 0;
+}
+.personIndex{
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+    line-height: 38px;
+}
+.personalInfo .form-control{
+    border: 1px solid #e1e1e1;
+}
+.personalInfo .form-control:focus {
+    border-color: #3094b1;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.14), 0 0 8px rgba(13, 142, 77, .16);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.14), 0 0 8px rgba(13, 142, 77, .16);
+}
+.online-claim {
+    margin-top: 100px;
+}
+.online-claim-left{
+    background: url(../img/online_claim.jpg) 50% 50% no-repeat;
+    background-size: cover;
+    min-height: 455px;
+    padding: 60px 50px;
+}
+.online-claim-title {
+    font-size: 30px;
+    color: #000;
+}
+.online-claim-des {
+    font-size: 16px;
+    margin: 30px 0;
+    color: #5e5e5e;
+    width: 60%;
+}
+.btn-group-list {
+    margin-top: 40px;
+}
+.btn-group-list button{
+    display: block;
+    width: 210px;
+    margin-bottom: 10px;
+}
+.btn-group-list button:last-child{
+    margin-bottom: 0;
+}
+ul.contactType {
+    width: 90px;
+    float: left;
+    text-align: center;
+    border-right: 1px solid #e1e1e1;
+    margin: 1px 0 1px 1px;
+}
+ul.contactType li{
+    position: relative;
+    height: 110px;
+    cursor: pointer;
+}
+ul.contactType li img{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -22.5px;
+    margin-top: -22.5px;
+}
+ul.contactType li:first-child{
+    border-bottom: 1px solid #e1e1e1;
+}
+ul.contactType li.active{
+    background: #f6f6f6;
+}
+.contact-info {
+    display: none;
+    border: 1px solid #e1e1e1;
+    height: 222px;
+    padding: 20px 20px 20px 110px;
+}
+.contact-info#call{
+    display: block;
+}
+.contact-info p{
+    margin-bottom: 0;
+}
+.contact-info-title {
+    font-size: 30px;
+    margin-bottom: 30px;
+}
+.contact-info-call {
+    color: #ca2c40;
+    font-weight: bold;
+    font-size: 32px;
+}
+.contact-info-email{
+    color: #ca2c40;
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+.contact-help {
+    margin-top: 15px;
+}
+.contact-help-card {
+    text-align: center;
+    border: 1px solid #e1e1e1;
+    border-bottom: 2px solid #c92439;
+    padding: 10px 15px;
+    height: 217px;
+    overflow: hidden;
+}
+.contact-help-card.active {
+    border-bottom: 1px solid #e1e1e1;
+    background: #c92439;
+    color: #fff;
+    padding: 20px 15px;
+}
+.contact-help-title{
+    font-size: 30px;
+    line-height: 1.2;
+}
+.contact-help-card.active .contact-help-title{
+    display: none;
+}
+.contact-help-card img{
+    margin: 28px auto;
+}
+.contact-help-card.active img{
+    opacity: 0;
+}
+.contact-help-txt{
+    margin-top: 15px;
+    min-height: 44px;
+}
+.contact-help-card.active .contact-help-txt{
+    font-size: 18px;
+    line-height: 1.2;
+}
+.contact-help-hr{
+    display: none;
+    width: 80px;
+    border-bottom: 1px solid #fff;
+    margin: 20px auto;
+}
+.card-inner{
+    transition: transform .2s ease-in-out;
+}    
+.contact-help-card.active .card-inner{
+    transform: translateY(-85px);
+}
+.contact-help-card.active .contact-help-hr{
+    display: inline-block;
+}
+.contact-help-card button.btn-help{
+    padding: 8px 15px;
+    width: 100%;
+}
+.downloadApp{
+    background: url(../img/download_app.jpg) 50% 50% no-repeat;
+    background-size: cover;
+    min-height: 700px;
+    margin-top: 100px;
+    padding-top: 150px;
+}
+.downloadApp-title{
+    font-size: 48px;
+    line-height: 1.2;
+    margin-bottom: 35px;
+}
+.downloadApp-feature{
+    margin: 30px 0 35px 0;
+}
+.downloadApp-card {
+    text-align: center;
+}
+.downloadApp-txt{
+    color: #464646;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+.downloadApp-bg{
+    background: url(../img/icon_app_bg.png);
+    width: 121px;
+    height: 121px;
+    position: absolute;
+    top: 10px;
+    left: -22px
+}
+.downloadApp-card img{
+    z-index: 2;
+    position: relative;
+    background: url(../img/icon_app_shadow.png) -2px 1px;
+}
+button.btn-download {
+    width: 200px;
+    position: relative;
+}
+.download-app{
+    position: relative;
+}
+.download-app-modal {
+    position: absolute;
+    display: none;
+    bottom: calc(100% + 20px);
+    z-index: 2;
+    background: #fff;
+    padding: 15px 30px;
+    border-radius: 6px;
+    box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.1);
+}
+.download-modal-head {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+.download-app-modal:after, .download-app-modal:before{
+    position: absolute;
+    pointer-events: none;
+    border: solid transparent;
+    top: 100%;
+    content: "";
+    height: 0;
+    width: 0;
+}
+.download-app-modal:after{
+    border-top-color: #fff;
+    border-width: 14px;
+    left: 10%;
+    margin-right: -14px;
+}
+.download-app-modal:before {
+    border-top-color: #dcdcdc;
+    border-width: 15px;
+    left: 10%;
+    margin-right: -15px;
+}
+
+/* ============= Desktop ============= */
+@media all and (min-width : 1200px) {
+.carousel-caption {
+    top: 80px;
+}
+.carousel-inner > .carousel-item,
+.carousel-inner > .item {
+    height: 690px;
+}
+.carousel-inner > .carousel-item > img,
+.carousel-inner > .item > img {
+    height: 100%;
+    width: 100%;
+    object-fit: fill;
+}
+.carousel-caption {
+    right: 40%;
+    left: 18%;
+}
+.carousel-caption h1.caption {
+    font-size: 60px;
+}
+.carousel-caption-hr {
+    margin-bottom: 30px;
+}
+.carousel-caption p {
+    font-size: 18px;
+    padding-bottom: 20px;
+}
+.carousel-caption a {
+    font-size: 18px;
+}
+.quickQuote {
+    margin-top: -180px;
+}
+.online-claim {
+    margin-top: 100px;
+}
+}
+/* ============= 1200 - 1400 ============= */
+@media all and (max-width : 1500px) {
+.carousel-caption {
+    left: 15%;
+}
+.carousel-caption h1.caption {
+    font-size: 52px;
+}
+.carousel-control .icon-prev, .carousel-control .glyphicon-menu-left{
+    right: 35%;
+}
+.carousel-control .icon-next, .carousel-control .glyphicon-menu-right{
+    left: 35%;
+}
+.quickQuote h2{
+    font-size: 20px;
+}
+}
+/* ============= 1300 ============= */
+@media all and (max-width : 1366px) {
+
+/* ===== banner ===== */
+.carousel-inner > .carousel-item,
+.carousel-inner > .item {
+    height: 520px;
+}
+.carousel-inner > .carousel-item > img,
+.carousel-inner > .item > img {
+    height: 100%;
+    width: 100%;
+    object-fit: fill;
+}
+.carousel-control .icon-prev, 
+.carousel-control .icon-next, 
+.carousel-control .glyphicon-menu-left, 
+.carousel-control .glyphicon-menu-right{
+    top: 40%;
+    transform: scale(0.8);
+}
+.carousel-control{
+    width: 7%;
+}
+.carousel-caption h1.caption {
+    font-size: 42px;
+}
+.carousel-caption p {
+    font-size: 18px;
+}
+.carousel-caption {
+    top: 70px;
+    right: 50%;
+    left: 12%;
+    bottom: 40%;
+}
+
+.carousel-caption-hr {
+    display: none;
+}
+/*.carousel-caption a {
+    display: none;
+}*/
+
+/* ======= quick quote section =======*/
+
+.quickQuote {
+    margin: -175px 8% -30px;
+}
+.quickQuote .container{
+    width: 96%;
+}
+.quickQuote h2{
+    padding-left: 15px;
+    font-size:16px;
+}
+.online-claim {
+    padding: 0 15px;
+}
+.online-claim .container{
+    width: 100%;
+}
+.downloadApp-bg {
+    top: 5px;
+    left: -25%;
+}
+.quickquote-txt{
+   /* display: none;*/
+}
+.quickquote-outer{
+    /*padding: 20px 30px;
+    height: 160px;*/
+}
+.quickquote-outer.active .btn-quote{
+    bottom: -60px;
+}
+.quickquote-title{
+    font-size: 18px;
+    opacity: .8;
+}
+.modal-quickQuote{
+    width: 120%;
+    margin-left: -10%;
+    bottom: -65px;
+    z-index: 11;
+}
+.modal-quote-title{
+    font-size: 26px;
+}
+.modal-quickQuote .modal-homepage{
+    box-shadow: 0px 0px 5px 5px rgba(0,0,0,0.1);
+}
+.modal-homepage-right{
+    padding: 0 60px;
+}
+}
+/* ============= 1024 ============= */
+@media all and (max-width : 1024px) {
+#carouselHomepage{
+    margin-top: 50px;
+}
+.personalInfo {
+    margin: 20px 0 0 0;
+}
+.carousel-inner > .carousel-item,
+.carousel-inner > .item {
+    height: 400px;
+}
+.carousel-inner > .carousel-item > img,
+.carousel-inner > .item > img {
+    height: 100%;
+    width: 100%;
+    object-fit: fill;
+}
+.carousel-caption h1.caption {
+    font-size: 46px;
+}
+.carousel-caption {
+    top: 40px;
+    right: 40%;
+}
+/* ============= carousel end ============= */
+.modal-quickQuote{
+    position: fixed;
+    top: 0px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    margin-left: 0;
+    background: #fff;
+    overflow-y: auto;
+}
+.modal-quickQuote .modal-homepage{
+    width: 100%;
+    margin-top: 50px;
+    box-shadow: none;
+}
+/* .modal-homepage-left, .modal-homepage-right{
+    width: 100%;
+} */
+.modal-homepage-left{
+    border-right: none;
+    height: auto;
+}
+.quickquote-outer{
+    height: 160px;
+}
+.quickquote-title {
+    font-size: 18px;
+}
+.quickquote-txt{
+   /* display: none;*/
+}
+.quickQuote{
+    margin: -65px 0 0;
+}
+.quickquote-outer{
+    height: 170px;
+}
+.contact-info-title, .online-claim-title, .contact-help-title{
+    font-size: 24px;
+}
+/* ============= Claim Section ============*/
+.online-claim{
+    margin-top: 80px;
+}
+.online-claim-left{
+    background-position: 85% 50% !important;
+}
+/* ============= download app ============= */
+.downloadApp{
+    padding-top: 100px;
+}
+.downloadApp-inner{
+    
+}
+.downloadApp-title{
+    font-size: 38px;
+}
+}
+/* ============= 992 ============= */
+@media all and (max-width : 992px) {
+
+.carousel-caption{
+    top: 30px;
+    right: 40%;
+}
+.online-claim{
+    padding: 0;
+}
+.online-claim .nopadding-right{
+    padding-right: 7.5px;
+}
+.online-claim .nopadding-left {
+    padding-left: 7.5px;
+}
+.downloadApp-bg {
+    left: 30%;
+}
+.plan-main-right{
+    padding-left: 0;
+}
+.online-claim {
+    margin-top: 0;
+}
+.online-claim-left {
+    background: none!important;
+    min-height: auto;
+    padding: 40px 15px;
+}
+.online-claim-title {
+    font-size: 24px;
+    color: #c92439;
+}
+.online-claim-des {
+    margin: 15px 0 30px;
+    width: 100%;
+}
+.btn-group-list{
+    margin-top: 0;
+}
+.btn-group-list button {
+    width: 49%;
+    display: inline-block;
+    margin-bottom:0;
+}
+.btn-group-list button:last-child {
+    float: right;
+}
+button.btn-claim-info{
+    color: #323232;
+    background: #e2e2e2;
+    border-color: #e2e2e2;
+}
+ul.claim-contact-list {
+    margin: 0 -7.5px;
+    border-bottom: 8px solid #e4e4e4;
+}
+ul.claim-contact-list li{
+    padding: 15px;
+    border-top: 1px solid #e6e6e6;
+}
+ul.claim-contact-list li img{
+    height: 30px;
+    width: auto;
+    margin-right: 15px;
+}
+ul.claim-contact-list li i{
+    float: right;
+    color: #c92439;
+}
+/* ============= quick quote ============= */
+.quickQuote .container{
+    width: 100%;
+}
+.modal-quickQuote {
+    position: fixed;
+    top: 0;
+    border: 0;
+    z-index: 10;
+    height: 100%;
+    overflow-y: scroll;
+}
+.modal-quickQuote img{
+    width: 30px;
+}
+.modal-homepage-left, .modal-homepage-right{
+    text-align:left;
+    padding: 0 20%;
+}
+.modal-homepage-left img{
+    display: none;
+}
+.modal-quote-title {
+    font-size: 24px;
+    margin: 10px auto;
+}
+.modal-quote-hr{
+    display: none;
+}
+/* ============= download app ============= */
+.downloadApp {
+    background: none !important;
+    background-size: cover;
+    min-height: auto;
+    margin-top: initial;
+    padding-top: initial;
+    margin: 0 -7.5px;
+}
+.downloadApp .container{
+    width: 100%;
+}
+.downloadApp-banner {
+    margin-top: 20px;
+}
+.downloadApp-banner img{
+    width: 100%;
+}
+.downloadApp-inner {
+    padding: 20px 15px;
+}
+button.btn-download{
+    left: 50%;
+    margin-left: -100px; 
+}
+}
+/* ============= 768 ============= */
+@media all and (max-width : 768px) {
+.carousel-inner > .carousel-item,
+.carousel-inner > .item {
+    height: 250px;
+}
+.carousel-inner > .carousel-item > img,
+.carousel-inner > .item > img {
+    height: 100%;
+    object-fit: fill;
+}
+.carousel-caption {
+    top: 30px;
+    left: 15px;
+    right: 20%;
+}
+.carousel-caption h1.caption {
+    font-size: 28px;
+}
+.carousel-caption p {
+    font-size: 14px;
+}
+.carousel-caption p .icon {
+    zoom: 0.8;
+}
+.carousel-control{
+    display: none;
+}
+
+/* ============= carousel end ============= */
+.modal-quickQuote{
+    width: 100%;
+    margin: 0;
+}
+.quickQuote {
+    margin: 0;
+}
+.quickquote-row {
+    box-shadow: none;
+    border-bottom: 8px solid #e4e4e4;
+}
+
+.quickquote-row-third {
+    box-shadow: none;
+}
+
+.quickquote-outer {
+    width: 50%;
+    float: left;
+    height: auto;
+    text-align: left;
+    padding: 25px 0 0 0;
+    border: none;
+    background: #fff;
+}
+.quickQuote .container{
+    width: 100%;
+}
+.quickQuote h2 {
+    text-shadow: none;
+    margin: 0 -7.5px;
+    background: #ca2c40;
+    padding: 10px 15px;
+    font-size: 14px;
+}
+.quickQuote h2 span{
+    display: none;
+}
+.quickquote-txt, .btn-quote {
+    /*display: none;*/
+}
+.quickquote-outer img.tablet-768 {
+    height: 40px;
+    display: inline-block;
+}
+.quickquote-title {
+    font-size: 14px;
+    color: #474747;
+    margin: 0;
+    line-height: 1.2;
+    display: table-cell;
+    vertical-align: middle;
+    width: 100%;
+    text-align: center;
+    padding: 0 5px;
+}
+.quickquote-inner {
+    border-right: 1px solid #efefef;
+    padding: 0 20px;
+    display: table;
+    width: 100%;
+    height: auto;
+}
+
+.quickquote-outer:after{
+    content: "";
+    width: 70%;
+    height: 1px;
+    border-bottom: 1px solid #efefef;
+    display: block;
+    margin: 20px auto 0;
+}
+.row>.quickquote-outer:nth-child(2n) .quickquote-inner {
+    border-right: none;
+}
+.row>.quickquote-outer:nth-child(3):after, .row>.quickquote-outer:nth-child(4):after{
+    border-color: transparent;
+}
+.modal-quickQuote {
+    position: fixed;
+    top: 0;
+    border: 0;
+    z-index: 10;
+    height: 100%;
+    overflow-y: scroll;
+}
+.modal-quickQuote img{
+    width: 30px;
+}
+.modal-quickQuote .modal-homepage{
+    margin-top: 20px;
+}
+.modal-quickQuote .modal-homepage .icon_cancel:before{
+    transform: scale(.8);
+}
+.modal-homepage-left{
+    padding: 0 15px 20px 15px;
+}
+.modal-homepage-left img{
+    display: none;
+}
+.modal-quote-title {
+    font-size: 24px;
+    margin: 10px auto;
+}
+.modal-quote-hr{
+    display: none;
+}
+.modal-quote-txt {
+    font-size: 14px;
+    margin-top: 0px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e6e6e6;
+}
+.modal-homepage-right {
+    padding: 0 15px 20px 15px;
+}
+.fixed-bg{
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+    background: #fff;
+    padding: 10px 0; 
+}
+.btn-quoteNow {
+    width: calc(100% - 20px);
+    margin-top: 0;
+}
+input.insuredAmount {
+    max-width: 100%;
+    margin-left: 0;
+}
+.personIndex {
+    text-align: left;
+    line-height: 1.42857143;
+}
+ul.personType>li {
+    width: 100%;
+    margin-left: 0;
+    margin-bottom: 10px;
+}
+/* ============= quickQuote end ============= */
+.downloadApp-banner {
+    margin-top: 0px;
+}
+.downloadApp-inner {
+    padding: 30px 25px;
+}
+.downloadApp-title {
+    font-size: 24px;
+    color: #c92439;
+    font-weight: normal;
+    margin-bottom: 15px;
+}
+.downloadApp-feature {
+    margin: 25px 10px;
+}
+.downloadApp-card {
+    margin-bottom: 15px;
+}
+.downloadApp-bg {
+    left: 50%;
+    margin-left: -89px;
+    top: 7px;
+}
+.downloadApp-txt{
+    font-size: 14px;
+}
+button.btn-download {
+    width: 100%;
+    margin-left: auto;
+    left: auto;
+}
+
+/* ============= download end ============= */    
+}
+@media (max-width: 320px){
+    .quickquote-outer img.tablet-768 {
+        height: 35px;
+    }
+}
+
+/* ============= Desktop (Chinese)============= */
+@media all and (min-width : 1200px) {
+
+.quickquote-outer:lang(zh){
+    height: 190px;
+}
+.quickquote-inner:lang(zh){
+    height: 160px;
+}
+
+    /* 模态弹窗样式 */
+    .new-text-modal {
+        display: none; /* 初始隐藏 */
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #fff;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+        z-index: 9999;
+        width: 320px;
+        text-align: center;
+        border: 1px solid #e0e0e0;
+        animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translate(-50%, -55%);
+        }
+
+        to {
+            opacity: 1;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    /* 模态弹窗文本样式 */
+    .new-modal-text p {
+        margin: 15px 0;
+        line-height: 1.6;
+        color: #444;
+        font-size: 14px;
+        font-family: Arial, sans-serif;
+    }
+
+    /* 模态弹窗外层遮罩样式 */
+    .new-text-modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 9998;
+        animation: fadeInOverlay 0.3s ease-in-out;
+    }
+
+    @keyframes fadeInOverlay {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+}

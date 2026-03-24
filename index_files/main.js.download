@@ -1,0 +1,275 @@
+jQuery(document).ready(function($) {
+	$('.smobitrigger').smplmnu();
+});
+jQuery.noConflict();
+(function ($) {
+
+    $.fn.datapickerSelectDateRange = function (minDate, maxDate) {
+            this.data('DateTimePicker').minDate(minDate);
+            this.data('DateTimePicker').maxDate(maxDate);
+    };
+
+    $.fn.addItemToDropdown = function (value, innerHTML) {
+        var option = document.createElement('option');
+        option.value = value;
+        option.innerHTML = innerHTML;
+        $(this).append(option);
+    }
+
+    $.fn.removeItemFromDropdown = function (value) {
+        var id = this.attr('id');
+        $('#' + id + ' option[value="' + value + '"]').remove();
+    }
+
+	$(document).ready(function() {
+		//datetimepicker
+        //var todate = new Date(new Date().toUTCString());
+        //var defaultMinDate = new Date(todate.setHours(0,0,0,0));
+        //var defaultMaxDate = new Date(new Date().setDate(defaultMinDate.getDate() + 91));
+		//datetimepicker
+        $('.datepicker').datetimepicker({
+        	// viewMode: 'months',
+        	// format: 'MM/YYYY',
+        	format: 'DD/MM/YYYY',
+        	keepOpen: false,
+        	ignoreReadonly: true,
+        	allowInputToggle: true,
+        	//minDate: defaultMinDate,
+        	//maxDate: defaultMaxDate,
+	        widgetPositioning: {
+	        	horizontal: 'auto',
+        		vertical: 'bottom'
+	        }
+        });
+        
+        //popover
+		$('.icon_info[data-toggle="popover"]').popover();
+        //input label top
+        $('.float-input').focus(function() {
+		    $(this).prev().addClass('focus');
+		});
+		//hovertip
+		$( 'a.icon_tip' ).hover(function() {
+		    $($(this).data('target')).fadeIn();
+		  	}, function() {
+		    $($(this).data('target')).fadeOut();
+		});
+        //number
+        $('button.plus').on('click', function (e) {
+            var qtyElem = $($(this).prev('input'));
+            var max = qtyElem.attr('max');
+            var qty = parseInt(qtyElem.val());
+            if (qty+1<=max) {
+                $(qtyElem).val(qty+1);
+            }
+		    e.preventDefault();
+		});
+        $('button.minus').on('click', function (e) {
+            var qtyElem = $($(this).next('input'));
+            var min = qtyElem.attr('min');
+            var qty = parseInt(qtyElem.val());
+            if (qty - 1 >= min) {
+                $(qtyElem).val(qty - 1);
+            }
+
+		    e.preventDefault();
+		});
+		//scrollToTop
+		$(window).scroll(function () {
+	        if ($(this).scrollTop() > 100) {
+	            $('.scrollup').fadeIn();
+	        } else {
+	            $('.scrollup').fadeOut();
+	        }
+	    });
+	    $('.scrollup').click(function () {
+	        $("html, body").animate({
+	            scrollTop: 0
+	        }, 600);
+	        return false;
+	    });
+		
+		$('.modal-homepage').click(function(e) { 
+		  e.stopPropagation();
+		});
+		$('.close').click(function(e){
+		  e.stopPropagation();
+  		  $('.modal-topQuote').hide();
+  		  $('.modal-login').hide();
+  		  $('.overally').removeClass('cover');
+		});
+
+	    // button loading
+
+		$('.btn-loading').on("click", function () {
+		    //$(this).addClass('form-readonly-no-color');
+		});
+
+		// ================ edit by roy ======================//
+		
+	
+		//navscroll
+        $(window).scroll(function () {
+            if ($(window).width() > 1024) {
+				if ($(this).scrollTop() >= 100) {
+		            $('nav#nav').addClass('navbar-fixed-slim');
+		            
+		            $( 'nav#nav' ).on( "mouseenter", function() {
+						$( 'nav#nav' ).removeClass( 'navbar-fixed-slim' );
+					});
+					$( 'nav#nav' ).on( "mouseleave", function() {
+						$( 'nav#nav' ).addClass( 'navbar-fixed-slim' );
+					});
+		        } else {
+		            $('nav#nav').removeClass('navbar-fixed-slim');
+		            $( 'nav#nav' ).off( "mouseleave");
+		        }
+		    }
+		});
+
+		//loginModal-top
+		$('button.btn-log').click(function(e) {
+
+			e.stopPropagation();
+		
+            if ($(window).width() > 1024) {
+				$( $(this).data('target') ).slideDown(500);
+				  	$('html, body').animate({
+				    scrollTop: 0
+				}, 600);
+				$('.overally').addClass('cover');
+			} 
+			else {
+
+				//$($(this).data('target')).show();
+				//  	$('html, body').animate({
+				//    scrollTop: 0
+				//});
+// ?????????????,????????
+        $('.smobitrigger').show();
+        $('.mnuclose').hide();
+        $('.mobimenu').removeClass('mnuopn');
+        $('.overally').removeClass('ovrActv');
+        $('body').removeClass('noScroll');
+
+        $($(this).data('target')).show();
+        $('html, body').animate({
+            scrollTop: 0
+        });
+
+				
+			}
+			return false;
+		});
+
+
+		//nav-link
+		$( 'a.nav-link' ).hover(function() {
+            if ($(window).width() > 1024) {
+				$( 'a.nav-link' ).css('color', '#b5b5b5');
+				$( this ).addClass( 'hover' );
+			}
+		}, 
+		function() {
+            if ($(window).width() > 1024) {
+				$( 'a.nav-link' ).css('color', '#474747');
+				$( this ).removeClass( 'hover' );
+			}
+		});
+
+		//mobile submenu
+		$('li.has-dropdown').click(function () {
+            if ($(window).width() < 1024){
+				$(this).siblings().children('.submenu').hide();
+				$(this).children('.submenu').toggle();
+
+				$(this).children('a.nav-link').children('i.glyphicon').toggleClass('glyphicon-menu-down').toggleClass('glyphicon-menu-up');
+				$(this).siblings().children('a.nav-link').children('i.glyphicon').addClass('glyphicon-menu-down').removeClass('glyphicon-menu-up');
+			}
+		});
+
+
+		$(document).click(function(){
+			$('.modal-topQuote').hide();
+			$('.modal-login').hide();
+			$('.overally').removeClass('cover');
+		});
+
+		//responsive
+        if ($(window).width() > 1024) {
+			$(".smobitrigger").hide();
+		} else {
+			$('.mobimenu').prepend($('ul.nav-right-inner'));
+			$('li.has-dropdown a.nav-link').append('<i class="glyphicon glyphicon-menu-down"></i>');
+		}
+		
+
+        if ($(window).width() > 768) {
+		}
+		/* ============ mobile ============ */
+		else{
+			//footer
+			$('.footer-link-title').append('<i class="glyphicon glyphicon-menu-down"></i>');
+			$('.footer-link-title').click(function () {
+				$(this).parent().siblings().children('ul.footer-link').hide();
+				$($(this)).next('ul.footer-link').toggle();
+
+				$(this).parent().siblings().children('.footer-link-title').children('i.glyphicon').removeClass('glyphicon-menu-up').addClass('glyphicon-menu-down');
+				$(this).children('i.glyphicon').toggleClass('glyphicon-menu-down').toggleClass('glyphicon-menu-up');
+			});
+		}
+
+		/* ============ demo for loading button ============ */
+		$(".btn-use").click(function(event) {
+			//$(this).addClass('form-readonly-no-color')
+		});
+		
+		/* ============ try to fix the menu issue ============ */
+
+        $(window).resize(function () {
+            
+            var checkIcon = $('.smobitrigger').is(':visible');
+		
+            if ($(window).width() < 1024 && !checkIcon) {
+                
+				$("nav#nav.navbar-fixed-slim").css("top","0");
+		    	$('nav#nav').removeClass('navbar-fixed-slim');
+				$(".smobitrigger").show();
+				$( 'nav#nav' ).off();
+
+				if($('li.has-dropdown a.nav-link').find(".glyphicon").length == 0){
+					$('.mobimenu').prepend($('ul.nav-right-inner'));
+					$('li.has-dropdown a.nav-link').append('<i class="glyphicon glyphicon-menu-down"></i>');
+				}
+			} 
+
+            if ($(window).width() > 1024  && checkIcon){
+				
+				$(".mobimenu").removeClass('mnuopn');
+				$(".overally").removeClass('ovrActv');
+				$(".mnuclose").removeAttr("style");
+				$(".submenu").removeAttr("style");
+				$('.mobimenu').removeAttr("style");
+				$(".smobitrigger").hide();
+				$("nav#nav").removeAttr("style");
+
+				$('.nav-right').prepend($('ul.nav-right-inner'));
+				$('li.has-dropdown a.nav-link').find(".glyphicon").remove();
+			}
+		});
+		
+	
+	});
+
+	function addItemToDropdown(selectElementId, value, innerHTML) {
+	    var select = document.getElementById(selectElementId);
+	    var option = document.createElement('option');
+	    option.value = value;
+	    option.innerHTML = innerHTML;
+	    select.appendChild(option);
+	}
+
+	function removeItemFromDropdown(selectElementId, value) {
+	    $('#' + selectElementId + ' option[value="' + value + '"]').remove();
+	}
+})(jQuery)	

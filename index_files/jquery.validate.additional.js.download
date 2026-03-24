@@ -1,0 +1,1741 @@
+﻿
+
+//多个文本框是否有重复内容
+function repeatContentCheck(ary) {
+
+    //var nary = ary.sort();
+    //for (var i = 0; i < nary.length - 1; i++) {
+    //    if (nary[i] == nary[i + 1])
+    //    { alert("重复内容：" + nary[i]); }
+    //}
+    return /(\x0f[^\x0f]+)\x0f[\s\S]*\1/.test("\x0f" + a.join("\x0f\x0f") + "\x0f");
+}
+//日期格式化 
+Date.prototype.toString = function (format, loc) {
+    var time = {};
+    time.Year = this.getFullYear();
+    time.TYear = ("" + time.Year).substr(2);
+    time.Month = this.getMonth() + 1;
+    time.TMonth = time.Month < 10 ? "0" + time.Month : time.Month;
+    time.Day = this.getDate();
+    time.TDay = time.Day < 10 ? "0" + time.Day : time.Day;
+    time.Hour = this.getHours();
+    time.THour = time.Hour < 10 ? "0" + time.Hour : time.Hour;
+    time.hour = time.Hour < 13 ? time.Hour : time.Hour - 12;
+    time.Thour = time.hour < 10 ? "0" + time.hour : time.hour;
+    time.Minute = this.getMinutes();
+    time.TMinute = time.Minute < 10 ? "0" + time.Minute : time.Minute;
+    time.Second = this.getSeconds();
+    time.TSecond = time.Second < 10 ? "0" + time.Second : time.Second;
+    time.Millisecond = this.getMilliseconds();
+    time.Week = this.getDay();
+
+    var MMMArrEn = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    var MMMArr = ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"];
+    var WeekArrEn = ["Sun", "Mon", "Tue", "Web", "Thu", "Fri", "Sat"];
+    var WeekArr = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+
+    var oNumber = time.Millisecond / 1000;
+
+    if (format != undefined && format.replace(/\s/g, "").length > 0) {
+        if (loc != undefined && loc == "en") {
+            MMMArr = MMMArrEn.slice(0);
+            WeekArr = WeekArrEn.slice(0);
+        }
+        format = format
+            .replace(/yyyy/ig, time.Year)
+            .replace(/yyy/ig, time.Year)
+            .replace(/yy/ig, time.TYear)
+            .replace(/y/ig, time.TYear)
+            .replace(/MMM/g, MMMArr[time.Month - 1])
+            .replace(/MM/g, time.TMonth)
+            .replace(/M/g, time.Month)
+            .replace(/dd/ig, time.TDay)
+            .replace(/d/ig, time.Day)
+            .replace(/HH/g, time.THour)
+            .replace(/H/g, time.Hour)
+            .replace(/hh/g, time.Thour)
+            .replace(/h/g, time.hour)
+            .replace(/mm/g, time.TMinute)
+            .replace(/m/g, time.Minute)
+            .replace(/ss/ig, time.TSecond)
+            .replace(/s/ig, time.Second)
+            .replace(/fff/ig, time.Millisecond)
+            .replace(/ff/ig, oNumber.toFixed(2) * 100)
+            .replace(/f/ig, oNumber.toFixed(1) * 10)
+            .replace(/EEE/g, WeekArr[time.Week]);
+    }
+    else {
+        format = time.Year + "-" + time.Month + "-" + time.Day + " " + time.Hour + ":" + time.Minute + ":" + time.Second;
+    }
+    return format;
+}
+// 计算两个日期的间隔天数  
+function DateDiff(sDate1, sDate2) { //sDate1和sDate2是2002/12/18格式   
+    var aDate, oDate1, oDate2, iDays
+    sDate1 = sDate1.replace(/-/g, "/");
+    sDate2 = sDate2.replace(/-/g, "/");
+    aDate = sDate1.split("/")
+    oDate1 = new Date(aDate[2] + '/' + aDate[1] + '/' + aDate[0]) //转换为dd/MM/yyyy格式   
+    aDate = sDate2.split("/")
+    oDate2 = new Date(aDate[2] + '/' + aDate[1] + '/' + aDate[0])
+    //iDays = parseInt(Math.abs(oDate1 - oDate2) / 1000 / 60 / 60 / 24) //把相差的毫秒数转换为天数
+    iDays = parseInt((oDate1 - oDate2) / 1000 / 60 / 60 / 24);
+    return iDays
+}
+
+//香港身份證驗證
+function checkHkid(sHKIDNum) {
+    var iCheckSum;
+    var iCheckDigit;
+    var sCheckDigit;
+
+    var sHKIDAlphabet2;
+    var sHKIDNumber6;
+    var i;
+    check_flag = false;
+    iCheckSum = 0;
+    iCheckDigit = 0;
+    sCheckDigit = "";
+
+    //Normalize HKID number to XX999999X
+    //sHKIDNum = UTrim(sHKIDNum)
+    if (sHKIDNum.length == 8) {
+        sHKIDNum = " " + sHKIDNum;
+    }
+    sHKIDAlphabet2 = sHKIDNum.substr(0, 2)
+    sHKIDNumber6 = sHKIDNum.substr(2, 6)
+
+    //check numberic and length
+    if ((sHKIDNumber6 == sHKIDNumber6 - 0) && sHKIDNum.length == 9) {
+        if (sHKIDAlphabet2.charAt(0) == " ") {
+            iCheckDigit = 36;
+        } else {
+            var temp = sHKIDAlphabet2.charAt(0);
+            iCheckDigit = temp.toUpperCase().charCodeAt(0) - 55;
+        }
+
+        iCheckSum = iCheckDigit * 9
+        var temp = sHKIDAlphabet2.charAt(1);
+        iCheckDigit = temp.toUpperCase().charCodeAt(0) - 55;
+        iCheckSum = iCheckSum + iCheckDigit * 8
+
+        for (i = 1; i <= 6; i++) {
+            iCheckDigit = sHKIDNumber6.substr(i - 1, 1)
+            iCheckSum = iCheckSum + iCheckDigit * (8 - i)
+        }
+
+        iCheckSum = 11 - iCheckSum % 11;
+
+        if (iCheckSum < 10) {
+            sCheckDigit = iCheckSum.toString();
+        } else {
+            if (iCheckSum == 10) {
+                sCheckDigit = "A";
+            } else {
+                sCheckDigit = "0";
+            }
+        }
+
+        if (sCheckDigit == sHKIDNum.substr(8, 1)) {
+            check_flag = true;
+        } else {
+            check_flag = false;
+        }
+
+        return check_flag;
+    } else {
+        return check_flag;
+    }
+}
+
+
+function checkEmail(email, validateUrl, successCallback, errorCallback) {
+    jQuery.ajax({
+        type: "POST",
+        async: false,
+        url: validateUrl,
+        //url: document.location.origin + "/Common/AjaxGetJobOccupationList",
+        data: { RegEmail: email },
+        dataType: "text",
+        success: successCallback,
+        error:errorCallback
+    });
+    return false;
+}
+
+
+var chkLoginMsg = "";
+function chkLoginMsgCallback() {
+    return chkLoginMsg;
+}
+function checkLogin(email, password, validateUrl, successCallback, errorCallback) {
+    jQuery.ajax({
+        type: "POST",
+        async: false,
+        url: validateUrl,
+        //url: document.location.origin + "/Common/AjaxGetJobOccupationList",
+        data: {
+            RegEmail: email,
+            Password: password,
+            __RequestVerificationToken: jQuery('input[name="__RequestVerificationToken"]').val()
+        },
+        dataType: "json",
+        success: successCallback,
+        error: errorCallback
+    });
+    return false;
+}
+
+
+
+function ValidateCaptcha(textInput, validateUrl, successCallback, errorCallback){
+    jQuery.ajax({
+        type: "POST",
+        async:false,
+        url: validateUrl,
+        data: { captcha: textInput },
+        dataType: "text",
+        success: successCallback,
+        error: errorCallback
+        });
+}
+//將香港身份證驗證加入到jquery
+jQuery.validator.addMethod("checkHkId", function (value, element) {
+    if (jQuery.trim(value) != "") {
+        value = value.toUpperCase();
+        
+        return checkHkid(value);
+    } else {
+        return false;
+    }
+}, "Please enter a valid HKID.");
+
+jQuery.validator.addMethod("checkPassport", function (value, element) {
+    if (jQuery.trim(value) != "") {
+        value = value.toUpperCase();
+
+        return /^[A-Za-z0-9]{6,}$/.test(value);
+    } else {
+        return false;
+    }
+}, "Please enter a valid Passport.");
+
+//將香港身份證驗證加入到jquery
+jQuery.validator.addMethod("HKIDRequired", function (value, element, param) {
+    if ($(param[1]).is(":visible")) {
+        var value1 = $(param[0]).val();
+        var value2 = $(param[1]).val();
+
+        if (jQuery.trim(value1) != "" && jQuery.trim(value2) != "") {
+            value2 = value2.toUpperCase();
+            $(param[2]).val(value1 + value2);
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return true;
+    }
+}, "Please enter a valid HKID.");
+
+jQuery.validator.addMethod("minHomeAmount", function (value, element, param) {
+
+    var min = param[0];
+    var checkbox = param[1];
+    
+    if (checkbox.is(":checked")) {
+        var inputAmount = value.trim();
+        inputAmount = inputAmount.replace(',', '');
+        if (jQuery.isNumeric(inputAmount)) {
+            inputAmount = Number(inputAmount).toFixed(2);
+            //update the element value without ','
+            jQuery(element).val(inputAmount);
+            if (inputAmount < min || inputAmount < 0) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            //not a number.
+            return false;
+        }
+    } else {
+        //not selected.
+        return true;
+    }
+
+}, "min amount is invalid.");
+
+jQuery.validator.addMethod("notEqual", function (value, element, param) {
+    
+    var targetElem = param[0];
+
+    if (targetElem.val() == value) {
+        return false;
+        } else {
+        return true;
+        }
+   
+}, "The value had duplicated.");
+
+jQuery.validator.addMethod("maxHomeAmount", function (value, element, param) {
+
+    var max = param[0];
+    var checkbox = param[1];
+    
+    if (checkbox.is(":checked")) {
+        var inputAmount = value.trim();
+        inputAmount = inputAmount.replace(',', '');
+        if (jQuery.isNumeric(inputAmount)) {
+            inputAmount = Number(inputAmount).toFixed(2);
+            //update the element value without ','
+            jQuery(element).val(inputAmount);
+            if (inputAmount > max) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            //not a number.
+            return false;
+        }
+    } else {
+        //not selected.
+        return true;
+    }
+}, "max amount is invalid");
+
+jQuery.validator.addMethod("HKIDDupulicated", function (value, element, param) {
+    if (typeof (param) != 'undefined') {
+        //first object should be one of insured value
+        var isOneOfInusred = 'false';
+        if (jQuery(param[0]).length) {
+            isOneOfInusred = jQuery(param[0]).val();
+        }
+        //the first item will be 1.
+        var startIdx = 1;
+        if (isOneOfInusred == 'true') {
+            startIdx = 2;
+        }
+        for (var i = startIdx; i < param.length; i++) {
+            var hkidElement =jQuery(param[i]).val();
+            if (hkidElement.toUpperCase() === value.toUpperCase()) {
+                return false;
+            }
+        }
+        return true;
+
+    } else {
+        return false;
+    }
+}, "The HKID had duplicated.");
+
+//验证英文
+jQuery.validator.addMethod("english", function (value, element) {
+    return this.optional(element) || /^[A-Z a-z]*$/.test(value);
+}, "Please enter a valid english.");
+
+jQuery.validator.addMethod("AlphabetNumber", function (value, element) {
+    //return this.optional(element) || /^[A-Z- a-z0-9]*$/.test(value);
+    return this.optional(element) || /^[A-Za-z0-9-/()]*$/.test(value);
+}, "Please enter a valid english and number.");
+
+jQuery.validator.addMethod("EnglishChinese", function (value, element) {
+    //return this.optional(element) || /^[A-Z- a-z0-9]*$/.test(value);
+    return this.optional(element) || /^[\u3300-\u9fff\uf900-\ufaff A-Za-z]*$/.test(value);
+}, "Please enter a valid english and chinese.");
+
+jQuery.validator.addMethod("englishString", function (value, element) {
+    return this.optional(element) || /^[A-Za-z0-9_()\-&.',\s ]*$/.test(value);
+}, "Please enter a valid english.");
+
+jQuery.validator.addMethod("SurnameNewRequired", function (value, element) {
+    if (value == "" || value == $('[name="LastName"]').attr("placeholder")) {
+        return false;
+    } else {
+        return true;
+    }
+}, "Please enter a valid english.");
+
+jQuery.validator.addMethod("GivenNameNewRequired", function (value, element) {
+    if (value == "" || value == $('[name="FirstName"]').attr("placeholder")) {
+        return false;
+    } else {
+        return true;
+    }
+}, "Please enter a valid english.");
+
+
+jQuery.validator.addMethod("englishAndNumber", function (value, element) {
+    var re = /^(?!\D+$)(?![^a-zA-Z]+$)\S{8,20}$/;
+    return this.optional(element) || re.test(value);// && $("#RegEmail").val() != value);
+}, "Please enter a valid english and number.");
+
+jQuery.validator.addMethod("chkBeMemberEmail", function (value, element, param) {
+    var result = false;
+    var becomeMemberChk = jQuery(param[0]).is(':checked');
+    var email = jQuery(param[1]).val();
+    var validateUrl = param[2];
+    
+    if (becomeMemberChk) {
+       checkEmail(
+            email,
+            validateUrl,
+            function (returnData) {
+                result = (returnData == 'true');
+            },
+             function (jqXHR, exception) {
+                 result = false;
+             }
+        );
+    }
+    else {
+        result =  true;
+    }
+    
+    return result;
+}, "The email has already being use.");
+
+jQuery.validator.addMethod("chkSelectedDate", function (value, element, param) {
+    //check the selected date had duplicated.
+    var result = true;
+    var gobalFormValidateElms = validateElms[param[0]].dateItems;
+
+    if (gobalFormValidateElms.length > 1) {
+        //handle the case when there is only one 
+        for (var i = 0; i < gobalFormValidateElms.length; i++) {
+            var currentObj = jQuery(element).prop('name');
+            var dateobj = gobalFormValidateElms[i].prop('name');
+
+            if (currentObj != dateobj) {
+                if (value == gobalFormValidateElms[i].val()) {
+                    result = false;
+                    break;
+                }
+            }
+        }
+    }
+
+    return result;
+}, "The selected date not valid.");
+
+
+
+jQuery.validator.addMethod("chkFromDate", function (value, element, param) {
+    //check the selected date had duplicated.
+    var result = true;
+    var gobalFormValidateElms = validateElms[param[0]].dateFromItems;
+
+    if (gobalFormValidateElms.length > 1) {
+        //handle the case when there is only one 
+        for (var i = 0; i < gobalFormValidateElms.length; i++) {
+            var currentObj = jQuery(element).prop('name');
+            var dateobj = gobalFormValidateElms[i].prop('name');
+
+            if (currentObj != dateobj) {
+                if (value == gobalFormValidateElms[i].val()) {
+                    result = false;
+                    break;
+                }
+            }
+        }
+    }
+
+    return result;
+}, "The date from date not valid.");
+
+jQuery.validator.addMethod("chkToDate", function (value, element, param) {
+    //check the selected date had duplicated.
+    var result = true;
+    var gobalFormValidateElms = validateElms[param[0]].dateToItems;
+
+    if (gobalFormValidateElms.length > 1) {
+        //handle the case when there is only one 
+        for (var i = 0; i < gobalFormValidateElms.length; i++) {
+            var currentObj = jQuery(element).prop('name');
+            var dateobj = gobalFormValidateElms[i].prop('name');
+
+            if (currentObj != dateobj) {
+                if (value == gobalFormValidateElms[i].val()) {
+                    result = false;
+                    break;
+                }
+            }
+        }
+    }
+
+    return result;
+}, "The date to date not valid.");
+
+jQuery.validator.addMethod("chkPeriodDate", function (value, element, param) {
+    //check the selected date had duplicated.
+    var result = true;
+    var gobalFormValidateFromElms = validateElms[param[0]].dateFromItems;
+    var gobalFormValidateToElms = validateElms[param[0]].dateToItems;
+
+    var dd = parseInt(value.substring(0, 2));
+    var mm = parseInt(value.substring(3, 5));
+    var yy = parseInt(value.substring(6, 10));
+
+    var selectedDate = new Date(Date.UTC(yy, (mm - 1), dd));
+
+
+    if (gobalFormValidateFromElms.length > 1 && gobalFormValidateToElms.length > 1) {
+        
+        for (var i = 0; i < gobalFormValidateFromElms.length; i++) {
+            var currentObjName = jQuery(element).prop('name');
+            var fromObjName = gobalFormValidateFromElms[i].prop('name');
+            var toObjName = gobalFormValidateToElms[i].prop('name');
+
+            var fromDateVal = gobalFormValidateFromElms[i].val();
+            var toDateVal = gobalFormValidateToElms[i].val();
+
+            var fdd = parseInt(fromDateVal.substring(0, 2));
+            var fmm = parseInt(fromDateVal.substring(3, 5));
+            var fyy = parseInt(fromDateVal.substring(6, 10));
+            var fromDate = new Date(Date.UTC(fyy, (fmm - 1), fdd));
+
+            var tdd = parseInt(toDateVal.substring(0, 2));
+            var tmm = parseInt(toDateVal.substring(3, 5));
+            var tyy = parseInt(toDateVal.substring(6, 10));
+            var toDate = new Date(Date.UTC(tyy, (tmm - 1), tdd));
+            
+            if (currentObjName == fromObjName) break;
+            if (currentObjName == toObjName) break;
+                
+            if (selectedDate <= toDate || fromDate >= selectedDate) {
+                    result = false;
+                    break;
+                }
+        }
+    }
+
+    return result;
+}, "The date from date not valid.");
+
+jQuery.validator.addMethod("chkLogin", function (value, element, param) {
+    var result = false;
+    var email = jQuery(param[0]).val();
+    var password = jQuery(param[1]).val();
+    var validateUrl = param[2];
+
+        checkLogin(
+             email,
+             password,
+             validateUrl,
+             function (returnData) {
+                 result = (returnData.result);
+                 
+                 chkLoginMsg = returnData.msg;
+                 
+             },
+              function (jqXHR, exception) {
+                  result = false;
+              }
+         );
+        
+    return result;
+}, chkLoginMsgCallback);
+
+jQuery.validator.addMethod("chkNameVal", function (value, element, param) {
+    //check the amount is not empty.
+    var result = true;
+    var nameElms = param[0];
+    if (nameElms.length > 1) {
+        //handle the case when there is only one 
+        for (var i = 0; i < nameElms.length; i++) {
+            var currentObj = jQuery(element).prop('name');
+            var amountobj = nameElms[i].prop('name');
+
+            if (currentObj != amountobj) {
+                if (value == nameElms[i].val()) {
+                    result = false;
+                    break;
+                }
+            }
+        }
+    }
+    return result;
+}, "The name not valid.");
+
+jQuery.validator.addMethod("chkAddrRequired", function (value, element, param) {
+    var result = true;
+
+    for (var i = 0; i < param.length; i++) {
+        //value that not empty
+        if (!param[i].val().trim()) {
+               result = false;
+        }
+    }
+
+    return result;
+}, "Address required.");
+
+jQuery.validator.addMethod("chkAmountCode", function (value, element, param) {
+    //check the code had duplicated.
+    var result = true;
+    var gobalFormValidateElms = validateElms[param[0]].codeItems;
+    
+    if (gobalFormValidateElms.length > 1) {
+        //handle the case when there is only one 
+        for (var i = 0; i < gobalFormValidateElms.length; i++) {
+            var currentObj = jQuery(element).prop('name');
+            var amountobj = gobalFormValidateElms[i].prop('name');
+            
+            if (currentObj != amountobj) {
+                if (value == gobalFormValidateElms[i].val()) {
+                    result = false;
+                    break;
+                }
+            }
+        }
+    }
+    
+    return result;
+}, "The currency code not valid.");
+
+jQuery.validator.addMethod("selectAmtCodeRequired", function (value, element, param) {
+    //check the currency code is selected.
+    
+    var result = true;
+    var mustValid = param[0];
+    var gobalFormValidateElms = validateElms[param[1]].codeItems;
+
+    if (gobalFormValidateElms.length == 1) {
+        //check when the amount had value.
+        if (!mustValid) {
+            var amountElm = jQuery(element).parent().next('input.decimal');
+            if (jQuery.isNumeric(amountElm.val()) && amountElm.val() > 0) {
+                if (value == '0') {
+                    result = false;
+                }
+            }
+        }
+    } else {
+        if (value == '0') {
+            result = false;
+        }
+    }
+
+    if (mustValid) {
+        if (value == '0') {
+            result = false;
+        }
+    }
+
+    
+    return result;
+}, "The currency code not valid.");
+
+
+
+
+
+
+jQuery.validator.addMethod("amtCodeRequired", function (value, element, param) {
+    //check the currency code is selected.
+
+    var result = true;
+    var amountVal = param[0].val();
+    
+    if (jQuery.isNumeric(amountVal) && amountVal > 0) {
+           if (value == '0') {
+               result = false;
+           }
+       }
+    
+    return result;
+}, "The currency code not valid.");
+
+jQuery.validator.addMethod("priceCodeEqualTo", function (value, element, param) {
+    //check the currency code is selected.
+    var result = true;
+    var priceCodeVal = jQuery(param[0]).val();
+    var amtVal = jQuery(param[1]).val();
+
+    if (jQuery.isNumeric(value) && jQuery.isNumeric(priceCodeVal)
+        && priceCodeVal > 0
+        && jQuery.isNumeric(amtVal)) {
+        if (Number(value) == 0 || priceCodeVal > 0 && value != priceCodeVal) {
+            result = false;
+        }
+    }
+
+    return result;
+}, "The currency code not valid.");
+
+jQuery.validator.addMethod("amtLessThanEqual", function (value, element, param) {
+    //check the currency code is selected.
+    var result = true;
+    var priceAmtVal = jQuery(param[0]).val();
+    var amtCodeVal = jQuery(param[1]).val();
+
+    if (jQuery.isNumeric(value) && value > 0) {
+        if (jQuery.isNumeric(priceAmtVal) && priceAmtVal > 0
+            && Number(value) > Number(priceAmtVal)) {
+            result = false;
+        }
+    }
+
+    return result;
+}, "The currency code not valid.");
+
+
+jQuery.validator.addMethod("selectAmtCodeRequired", function (value, element, param) {
+    //check the currency code is selected.
+
+    var result = true;
+    var mustValid = param[0];
+    var gobalFormValidateElms = validateElms[param[1]].codeItems;
+
+    if (gobalFormValidateElms.length == 1) {
+        //check when the amount had value.
+        if (!mustValid) {
+            var amountElm = jQuery(element).parent().next('input.decimal');
+            if (jQuery.isNumeric(amountElm.val()) && amountElm.val() > 0) {
+                if (value == '0') {
+                    result = false;
+                }
+            }
+        }
+    } else {
+        if (value == '0') {
+            result = false;
+        }
+    }
+
+    if (mustValid) {
+        if (value == '0') {
+            result = false;
+        }
+    }
+
+    
+    return result;
+}, "The currency code not valid.");
+
+jQuery.validator.addMethod("amountRequired", function (value, element, param) {
+    //check the amount is not empty.
+    var result = true;
+    var mustValid = param[0];
+    var gobalFormValidateElms = validateElms[param[1]].codeItems;
+    if (gobalFormValidateElms.length == 1) {
+        //check when the amount had value.
+        if (!mustValid) {
+            var codeElm = jQuery(element).prev('.select-wrapper').children('select');
+            if (codeElm.val() != '0') {
+                if (!value) {
+                    result = false;
+                }
+            }
+
+        }
+    } else {
+        if (!value) {
+            result = false;
+        }
+    }
+
+    if (mustValid) {
+        if (!value) {
+            result = false;
+        }
+    }
+    return result;
+}, "The currency code not valid.");
+
+jQuery.validator.addMethod("amtRequired", function (value, element, param) {
+    //check the amount is not empty.
+    var result = true;
+    var code = param[0].val();
+   
+        //check when the amount had value.
+            if (code != '0') {
+                if (!value) {
+                    result = false;
+                }
+            }
+            
+    return result;
+}, "The currency code not valid.");
+
+jQuery.validator.addMethod("chkAccidentDate", function (value, element, param) {
+    
+    var result = false;
+    var startDate = param[0];
+    var endDate = param[1];
+    //var isAnnual = param[2];
+    //var limitDays = param[3];
+    
+    var dd = parseInt(value.substring(0, 2));
+    var mm = parseInt(value.substring(3, 5));
+    var yy = parseInt(value.substring(6, 10));
+
+    var selectedDate = new Date(Date.UTC(yy, (mm-1), dd));
+    
+    //get the limited date
+    //var currentDate = new Date(new Date().toUTCString());
+    
+    //var limitDate = currentDate.setDate(currentDate.getDate() + limitDays);
+    
+    //if(isAnnual && currentDate > limitDate){
+    //    result = false;
+    //}
+    //else
+        if (selectedDate < startDate) {
+        result = false;
+    }
+    else if (selectedDate > endDate) {
+        result = false;
+    }
+    else {
+        result = true;
+    }
+    
+
+    return result;
+}, "The  date not valid.");
+
+jQuery.validator.addMethod("chkCurrentDate", function (value, element, param) {
+    
+    var result = true;
+    
+    var currentDate =  new Date(new Date().toUTCString());
+    currentDate.setHours(0);
+    currentDate.setMinutes(0);
+    currentDate.setSeconds(0);
+
+    var dd = parseInt(value.substring(0, 2));
+    var mm = parseInt(value.substring(3, 5));
+    var yy = parseInt(value.substring(6, 10));
+
+    var selectedDate = new Date(Date.UTC(yy, (mm - 1), dd));
+    selectedDate.setHours(0);
+    selectedDate.setMinutes(0);
+    selectedDate.setSeconds(0);
+   
+    
+    
+    //if(isAnnual && currentDate > limitDate){
+    //    result = false;
+    //}
+    //else
+    if (selectedDate > currentDate ) {
+        result = false;
+    }
+    else {
+        result = true;
+    }
+
+
+    return result;
+}, "The  date not valid.");
+
+jQuery.validator.addMethod("chkCurrentDateLimit", function (value, element, param) {
+    
+    
+    var result = false;
+    var isDoCheck = param[0];
+    var limitDays = param[1];
+    
+    if (isDoCheck) {
+    var dd = parseInt(value.substring(0, 2));
+    var mm = parseInt(value.substring(3, 5));
+    var yy = parseInt(value.substring(6, 10));
+
+    var selectedDate = new Date(Date.UTC(yy, (mm - 1), dd));
+
+    var millisecondsPerDay = 24 * 60 * 60 * 1000;
+    
+
+    //get the limited date
+    var currentDate = new Date(new Date().toUTCString());
+
+    //var limitDate = currentDate.setDate(currentDate.getDate() + limitDays);
+    var diffDays = (currentDate - selectedDate) / millisecondsPerDay;
+
+    if (limitDays <= diffDays) {
+        result = false;
+    }
+    else {
+        result = true;
+    }
+}else{
+        result = true;
+}
+
+    return result;
+}, "The  date not valid.");
+
+jQuery.validator.addMethod("chkDHOverEffectiveDate", function (value, element, param) {
+    
+    var result = false;
+    var startDate = param[0];
+    var limitDays = param[1];
+
+    var dd = parseInt(value.substring(0, 2));
+    var mm = parseInt(value.substring(3, 5));
+    var yy = parseInt(value.substring(6, 10));
+
+    var selectedDate = new Date(Date.UTC(yy, (mm - 1), dd));
+
+    var limitDate = new Date(startDate);
+    limitDate = limitDate.setDate(limitDate.getDate() + limitDays);
+    
+    if (selectedDate < limitDate) {
+        result = false;
+    }
+    else {
+        result = true;
+    }
+
+
+    return result;
+}, "The date not valid.");
+
+jQuery.validator.addMethod("chkPADischargeDate", function (value, element, param) {
+    
+    var result = false;
+    var admissionDateVal = param[0].val();
+    var dayslimit = param[1];
+   
+
+    var dd = parseInt(value.substring(0, 2));
+    var mm = parseInt(value.substring(3, 5));
+    var yy = parseInt(value.substring(6, 10));
+
+    var selectedDate = new Date(Date.UTC(yy, (mm - 1), dd));
+    var admissionDate;
+    var diffDays;
+    if (admissionDateVal) {
+        var dd = parseInt(admissionDateVal.substring(0, 2));
+        var mm = parseInt(admissionDateVal.substring(3, 5));
+        var yy = parseInt(admissionDateVal.substring(6, 10));
+
+        admissionDate = new Date(Date.UTC(yy, (mm - 1), dd));
+        var millisecondsPerDay = 24 * 60 * 60 * 1000;
+        diffDays = (selectedDate - admissionDate) / millisecondsPerDay;
+        
+    }
+
+    
+
+    if (diffDays < dayslimit) {
+        
+        result = false;
+        
+    }
+    else {
+        
+        result = true;
+    }
+
+    return result;
+}, "The discharge date not valid.");
+
+jQuery.validator.addMethod("chkDateNotEarlierThan", function(value, element, param) {
+    
+    var result = false;
+    var targetDateVal = param[0].val();
+    //var isAnnual = param[2];
+    //var limitDays = param[3];
+
+    var dd = parseInt(value.substring(0, 2));
+    var mm = parseInt(value.substring(3, 5));
+    var yy = parseInt(value.substring(6, 10));
+
+    var selectedDate = new Date(Date.UTC(yy, (mm - 1), dd));
+    var targetDate;
+    if(targetDateVal){
+        var dd = parseInt(targetDateVal.substring(0, 2));
+        var mm = parseInt(targetDateVal.substring(3, 5));
+        var yy = parseInt(targetDateVal.substring(6, 10));
+
+        targetDate = new Date(Date.UTC(yy, (mm - 1), dd));
+    }
+    
+    //get the limited date
+    //var currentDate = new Date(new Date().toUTCString());
+
+    //var limitDate = currentDate.setDate(currentDate.getDate() + limitDays);
+
+    //if(isAnnual && currentDate > limitDate){
+    //    result = false;
+    //}
+    //else
+    if (!targetDateVal) {
+        result = true;
+    }
+    else if (targetDateVal &&  selectedDate < targetDate) {
+        result = false;
+    }
+    else {
+        result = true;
+    }
+
+
+    return result;
+}, "The accident date not valid.");
+
+jQuery.validator.addMethod("chkDateNotLessThan", function (value, element, param) {
+    
+    var result = false;
+    var targetDateVal = param[0].val();
+    //var isAnnual = param[2];
+    //var limitDays = param[3];
+
+    var dd = parseInt(value.substring(0, 2));
+    var mm = parseInt(value.substring(3, 5));
+    var yy = parseInt(value.substring(6, 10));
+
+    var selectedDate = new Date(Date.UTC(yy, (mm - 1), dd));
+    var targetDate;
+    if (targetDateVal) {
+        var dd = parseInt(targetDateVal.substring(0, 2));
+        var mm = parseInt(targetDateVal.substring(3, 5));
+        var yy = parseInt(targetDateVal.substring(6, 10));
+
+        targetDate = new Date(Date.UTC(yy, (mm - 1), dd));
+    }
+
+    //get the limited date
+    //var currentDate = new Date(new Date().toUTCString());
+
+    //var limitDate = currentDate.setDate(currentDate.getDate() + limitDays);
+
+    //if(isAnnual && currentDate > limitDate){
+    //    result = false;
+    //}
+    //else
+    if (!targetDateVal) {
+        result = true;
+    }
+    else if (targetDateVal && selectedDate > targetDate) {
+        result = false;
+    }
+    else {
+        result = true;
+    }
+
+
+    return result;
+}, "The accident date not valid.");
+
+jQuery.validator.addMethod("chkDateMoreThanHr", function (value, element, param) {
+    
+    var result = false;
+    var targetDateVal = param[0].val();
+    var hour = param[1];
+    //var isAnnual = param[2];
+    //var limitDays = param[3];
+    
+    var dd = parseInt(value.substring(0, 2));
+    var mm = parseInt(value.substring(3, 5));
+    var yy = parseInt(value.substring(6, 10));
+    var hh = parseInt(value.substring(11, 13));
+    var mn = parseInt(value.substring(14, 16));
+    
+
+    var selectedDate = new Date(yy, (mm - 1), dd, hh, mn, 0);
+    
+    var targetDate;
+    if (targetDateVal) {
+        var t_dd = parseInt(targetDateVal.substring(0, 2));
+        var t_mm = parseInt(targetDateVal.substring(3, 5));
+        var t_yy = parseInt(targetDateVal.substring(6, 10));
+        var t_hh = parseInt(targetDateVal.substring(11, 13));
+        var t_mn = parseInt(targetDateVal.substring(14, 16));
+        targetDate = new Date(t_yy, (t_mm - 1), t_dd, t_hh + hour, t_mn, 0);
+    }
+    
+    
+    //get the limited date
+    //var currentDate = new Date(new Date().toUTCString());
+
+    //var limitDate = currentDate.setDate(currentDate.getDate() + limitDays);
+
+    //if(isAnnual && currentDate > limitDate){
+    //    result = false;
+    //}
+    //else
+
+
+    if (!targetDateVal) {
+        result = true;
+    }
+    else if (targetDateVal && selectedDate < targetDate) {
+        result = false;
+    }
+    else {
+        result = true;
+    }
+
+
+    return result;
+}, "The accident date not valid.");
+
+jQuery.validator.addMethod("chkDateNotEarlierThanDays", function (value, element, param) {
+    
+    var result = false;
+    var targetDateVal = "";
+    var days = param[1];
+    var admissionDate = param[2];
+
+    if (param[0].length) {
+        targetDateVal = param[0].val();
+    }
+    //var isAnnual = param[2];
+    //var limitDays = param[3];
+
+    var dd = parseInt(value.substring(0, 2));
+    var mm = parseInt(value.substring(3, 5));
+    var yy = parseInt(value.substring(6, 10));
+
+    var selectedDate = new Date(Date.UTC(yy, (mm - 1), dd));
+    var targetDate;
+    var diffDays;
+
+    if (!targetDateVal && admissionDate) {
+        targetDateVal = admissionDate;
+    }
+
+    if (targetDateVal) {
+        var dd = parseInt(targetDateVal.substring(0, 2));
+        var mm = parseInt(targetDateVal.substring(3, 5));
+        var yy = parseInt(targetDateVal.substring(6, 10));
+
+        targetDate = new Date(Date.UTC(yy, (mm - 1), dd));
+
+        var millisecondsPerDay = 24 * 60 * 60 * 1000;
+        diffDays = (selectedDate - targetDate) / millisecondsPerDay;
+        diffDays++;
+    }
+    
+    if (!targetDateVal) {
+        result = true;
+    }
+    else if (targetDateVal && diffDays < days) {
+        result = false;
+    }
+    else {
+        result = true;
+    }
+
+
+    return result;
+}, "The accident date not valid.");
+
+jQuery.validator.addMethod("chkCaptcha", function (value, element, param) {
+    var result = false;
+    var textInput = value;
+    var validateUrl = param[0];
+
+        ValidateCaptcha(
+             textInput,
+             validateUrl,
+             function (returnData) {
+                 result = (returnData == 'true');
+             },
+              function (jqXHR, exception) {
+                  result = false;
+              }
+         );
+        
+    return result;
+}, "The code is not valid.");
+
+jQuery.validator.addMethod("passwordFormatNotRequired", function (value, element) {
+    //    var re = /^(?!\D+$)(?![^a-z]+$)([^A-Z]+$)\S{8}$/;
+    //    return this.optional(element) || re.test(value);
+
+    if (value.length == 0) return true;
+    if (value.length < 8) return false;
+
+    if (/[A-Z]/.test(value))
+        if (/[a-z]/.test(value))
+            if (/\d/.test(value))
+                return true;
+    return false;
+
+
+}, "Please enter a valid password strength.");
+
+jQuery.validator.addMethod("passwordValidate", function (value, element) {
+    //    var re = /^(?!\D+$)(?![^a-z]+$)([^A-Z]+$)\S{8}$/;
+    //    return this.optional(element) || re.test(value);
+
+
+    if ((value.length < 8) || (value.length > 20)) return false;
+    var countOfValid = 0;
+
+    if (/[A-Z]/.test(value)) {
+        countOfValid++;
+    }
+    if (/[a-z]/.test(value)) {
+        countOfValid++;
+    }
+    if (/\d/.test(value)) {
+        countOfValid++;
+    }
+
+    if (/[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/.test(value)) {
+        countOfValid++;
+    }
+
+    if (countOfValid >= 3) {
+        return true;
+    } else {
+        return false;
+    }
+
+    return false;
+
+
+}, "Please enter a valid password strength.");
+
+jQuery.validator.addMethod("username", function (value, element) {
+    return this.optional(element) || /^[\u0391-\uFFE5\w]+$/.test(value);
+}, "Please enter a valid username.");
+
+jQuery.validator.addMethod("chinese", function (value, element) {
+    return this.optional(element) || /^[\u4E00-\u9FA5]+$/.test(value); //(/[^\u4E00-\u9FA5]/g,')
+}, "Please enter a valid chinese.");
+
+jQuery.validator.addMethod("NumNoDecimal", function (value, element) {
+    if (value != "")
+    return this.optional(element) || /^[0-9]+$/.test(value); //(/[^\u4E00-\u9FA5]/g,')
+}, "Please enter a valid phone number.");
+
+jQuery.validator.addMethod("phone", function (value, element) {
+    if (value != "")
+        var temp = value.substr(0, 1);
+    return this.optional(element) || /^\d{8,8}$/.test(value) && (temp == "5" || temp == "6" || temp == "8" || temp == "9"); //(/[^\u4E00-\u9FA5]/g,')
+}, "Please enter a valid phone number.");
+
+jQuery.validator.addMethod("phoneHome", function (value, element) {
+    if (value != "")
+        var temp = value.substr(0, 1);
+    return this.optional(element) || /^\d{8,8}$/.test(value) && (temp == "2" || temp == "3" || temp == "5" || temp == "6" || temp == "8" || temp == "9"); //(/[^\u4E00-\u9FA5]/g,')
+}, "Please enter a valid phone number.");
+
+jQuery.validator.addMethod("cargoPhone", function (value, element) {
+    return this.optional(element) || /^\d{8,}$/.test(value); //(/[^\u4E00-\u9FA5]/g,')
+}, "Please enter a valid phone number.");
+
+jQuery.validator.addMethod("maxNumber", function (value, element) {
+    return this.optional(element) || (/^\d{1,2}$/.test(value) && value <= 10 && value > 0); //(/[^\u4E00-\u9FA5]/g,')
+}, "Please enter a 1-10 number.");
+
+jQuery.validator.addMethod("IsDate", function (value, element) {
+    
+    
+    //value format is dd/MM/yyyy 
+    if (value.length < 10) return false;
+    var y = value.substring(0, 4);
+    var m = value.substring(5, 7);//.trimStart("0");
+    var d = value.substring(8, 10);//.trimStart("0");
+
+    var intY = parseInt(y);
+    var intM = parseInt(m);
+    var intD = parseInt(d);
+
+    if (intY > 2200 || intY < 1800) return false;
+    if (intM > 12 || intM < 1) return false;
+    if (intD > 31 || intD < 1) return false;
+
+    var thisdate = new Date(y + "/" + m + "/" + d);
+    return !/Invalid|NaN/.test(thisdate) && 
+        (thisdate.getFullYear() == intY && (thisdate.getMonth() + 1) == intM && thisdate.getDate() == intD)
+        ;
+}, "Please enter a valid Date.");
+
+jQuery.validator.addMethod("MaxDOB", function (value, element) {
+    //value format is dd/MM/yyyy 
+    if (value.length < 10) return false;
+
+    var today = new Date();
+    var dateBirthday = new Date(value.substring(6, 10) + "/" + value.substring(3, 5) + "/" + value.substring(0, 2));
+
+    return this.optional(element) || !(dateBirthday > today);
+}, "Please enter a valid Date.");
+
+jQuery.validator.addMethod("validDateRange", function (value, element, param) {
+    var minValue = 0;
+    var maxValue = 1;
+    var selectDate = value;
+    var today = param[1];
+
+    if (selectDate.length < 10 || today < 10) return true;
+    //最大年龄计算使用
+    var dateToday = new Date(today.substring(6, 10), today.substring(3, 5), today.substring(0, 2));
+    var dateBirthday = new Date(selectDate.substring(6, 10), selectDate.substring(3, 5), selectDate.substring(0, 2));
+    //最小年龄计算使用
+    var dateToday2 = new Date(today.substring(6, 10), today.substring(3, 5), today.substring(0, 2));
+    var dateBirthday2 = new Date(selectDate.substring(6, 10), selectDate.substring(3, 5), selectDate.substring(0, 2));
+
+    if (param.length == 4) {
+
+        if (param[0].toLowerCase() == "days") {
+
+            //最小天数
+            minValue = parseInt(param[2]);
+            //最大天数
+            maxValue = parseInt(param[3]);
+
+            //计算两个日期相差天数
+            var currDays = DateDiff(selectDate, today);//包括当天需要+1
+            return this.optional(element) || (currDays >= minValue && currDays <= maxValue);
+        }
+    }
+}, "Date is out of range");
+
+jQuery.validator.addMethod("validAge", function (value, element, param) {
+    //var minDays = 42;//默认6周
+    //var minYears = 18;//默认18岁
+    //var maxYears = 75;//默认75岁
+    var minChildAge = 42;
+    var maxChildAge = 17;
+    var minAudltAge = 18;
+    var maxAudltAge = 75;
+    var birthday = value;
+    var today = param[1];
+
+    if (birthday.length < 10 || today < 10) return true;
+
+    var RealdateBirthday = new Date(birthday.substring(6, 10), birthday.substring(3, 5) - 1, birthday.substring(0, 2));
+    //最大年龄计算使用
+    var dateToday = new Date(today.substring(6, 10), today.substring(3, 5) - 1, today.substring(0, 2));
+    var dateBirthday = new Date(birthday.substring(6, 10), birthday.substring(3, 5) - 1, birthday.substring(0, 2));
+    //最小年龄计算使用
+    var dateToday2 = new Date(today.substring(6, 10), today.substring(3, 5) - 1, today.substring(0, 2));
+    var dateBirthday2 = new Date(birthday.substring(6, 10), birthday.substring(3, 5) - 1, birthday.substring(0, 2));
+
+    if (param.length == 4) {
+
+        if (param[0].toLowerCase() == "child") {
+
+            //最小年龄 
+            var minAge = param[2];
+            var temp = minAge.substr(minAge.length - 1, 1);
+            if (minAge == "0") {
+                minChildAge = parseInt(minAge);
+            }
+            else if (temp.toLowerCase() == "w") {//按星期算(以w结尾)
+                minAge = minAge.substr(0, minAge.length - 1);
+                minChildAge = parseInt(minAge) * 7;
+            }
+            else if (temp.toLowerCase() == "d") {//按天数算(以d结尾)
+                minAge = minAge.substr(0, minAge.length - 1);
+                minChildAge = parseInt(minAge);
+            }
+            else if (temp.toLowerCase() == "m") {//按月计算(以m结尾)
+                minAge = minAge.substr(0, minAge.length - 1);
+                minChildAge = parseInt(minAge);
+            }
+            else {//格式错误默认设为0
+                minChildAge = 0;
+            }
+
+            //最大年龄
+            maxChildAge = parseInt(param[3]);
+
+            if (temp.toLowerCase() == "m") {
+
+                //计算最小月数
+                var currMonth = (dateToday2.getFullYear() * 12 + dateToday2.getMonth()) - (dateBirthday2.getFullYear() * 12 + dateBirthday2.getMonth());
+                dateBirthday2.setFullYear(dateToday2.getFullYear());
+                dateBirthday2.setMonth(dateToday2.getMonth());
+                if (dateToday2 < dateBirthday2) {
+                    currMonth--;
+                }
+
+                //计算最大年数
+                var currYears = dateToday.getFullYear() - dateBirthday.getFullYear();
+                // Reset birthday to the current year.
+                dateBirthday.setFullYear(dateToday.getFullYear());
+
+                // If the user's birthday has not occurred yet this year, subtract 1.
+                if (dateToday < dateBirthday) {
+                    currYears--;
+                }
+
+
+                return this.optional(element) || (currMonth >= minChildAge && currYears < maxChildAge && RealdateBirthday < new Date());
+            }
+            else {
+                //计算最小天数
+                var currDays = DateDiff(today, birthday) + 1;//包括当天需要+1
+
+
+                //计算最大年数
+                var currYears = dateToday.getFullYear() - dateBirthday.getFullYear();
+                // Reset birthday to the current year.
+                dateBirthday.setFullYear(dateToday.getFullYear());
+
+                // If the user's birthday has not occurred yet this year, subtract 1.
+                if (dateToday < dateBirthday) {
+                    currYears--;
+                }
+
+                return this.optional(element) || (currDays >= minChildAge && currYears < maxChildAge && RealdateBirthday < new Date());
+            }
+        }
+        else if (param[0].toLowerCase() == "friend") {
+            //最小年龄 
+            var minAge = param[2];
+            var temp = minAge.substr(minAge.length - 1, 1);
+            if (minAge == "0") {
+                minChildAge = parseInt(minAge);
+            }
+            else if (temp.toLowerCase() == "w") {//按星期算(以w结尾)
+                minAge = minAge.substr(0, minAge.length - 1);
+                minChildAge = parseInt(minAge) * 7;
+            }
+            else if (temp.toLowerCase() == "d") {//按天数算(以d结尾)
+                minAge = minAge.substr(0, minAge.length - 1);
+                minChildAge = parseInt(minAge);
+            }
+            else if (temp.toLowerCase() == "m") {//按月计算(以m结尾)
+                minAge = minAge.substr(0, minAge.length - 1);
+                minChildAge = parseInt(minAge);
+            }
+            else {//格式错误默认设为0
+                minChildAge = 0;
+            }
+
+            //最大年龄
+            maxAudltAge = parseInt(param[3]);
+
+            if (temp.toLowerCase() == "m") {
+
+                //计算最小月数
+                var currMonth = (dateToday2.getFullYear() * 12 + dateToday2.getMonth()) - (dateBirthday2.getFullYear() * 12 + dateBirthday2.getMonth());
+                dateBirthday2.setFullYear(dateToday2.getFullYear());
+                dateBirthday2.setMonth(dateToday2.getMonth());
+                if (dateToday2 < dateBirthday2) {
+                    currMonth--;
+                }
+
+                //计算最大年数
+                var currYears = dateToday.getFullYear() - dateBirthday.getFullYear();
+                // Reset birthday to the current year.
+                dateBirthday.setFullYear(dateToday.getFullYear());
+
+                // If the user's birthday has not occurred yet this year, subtract 1.
+                if (dateToday < dateBirthday) {
+                    currYears--;
+                }
+
+                return this.optional(element) || (currMonth >= minChildAge && currYears < maxAudltAge && RealdateBirthday < new Date());
+            }
+            else {
+
+                //计算最小天数
+                var currDays = DateDiff(today, birthday) + 1;//包括当天需要+1
+
+
+                //计算最大年数
+                var currYears = dateToday.getFullYear() - dateBirthday.getFullYear();
+                // Reset birthday to the current year.
+                dateBirthday.setFullYear(dateToday.getFullYear());
+
+                // If the user's birthday has not occurred yet this year, subtract 1.
+                if (dateToday < dateBirthday) {
+                    currYears--;
+                }
+
+                return this.optional(element) || (currDays >= minChildAge && currYears < maxAudltAge && RealdateBirthday < new Date());
+            }
+        }
+        else {//成年人
+
+            minAudltAge = parseInt(param[2]);
+            maxAudltAge = parseInt(param[3]);
+            if (maxAudltAge == 0) {
+
+                var years = dateToday.getFullYear() - dateBirthday.getFullYear();
+
+                // Reset birthday to the current year.
+                dateBirthday.setFullYear(dateToday.getFullYear());
+
+                // If the user's birthday has not occurred yet this year, subtract 1.
+                if (dateToday < dateBirthday) {
+                    years--;
+                }
+                return this.optional(element) || years >= minAudltAge;
+            }
+            else {
+                var currYears = dateToday.getFullYear() - dateBirthday.getFullYear();
+
+                // Reset birthday to the current year.
+                dateBirthday.setFullYear(dateToday.getFullYear());
+
+                // If the user's birthday has not occurred yet this year, subtract 1.
+                if (dateToday < dateBirthday) {
+                    currYears--;
+                }
+                return this.optional(element) || (currYears >= minAudltAge && currYears < maxAudltAge);
+            }
+
+        }
+
+    }
+}, "Age is out of range.");
+
+jQuery.validator.addMethod("CheckAge18", function (value, element) {
+    //value format is dd/MM/yyyy 
+    if (value.length < 10) return false;
+
+
+    //var now = new Date();
+    //var today = new Date(now.getUTCFullYear(),now.getUTCMonth(),now.getUTCDay());
+    //var minAgeDate = new Date((today.getFullYear() - 18), today.getMonth(), today.getDate());
+    var today = new Date(new Date().toUTCString());
+    var todayYear = today.getFullYear();
+    var todayDate = today.getDate();
+    var todayMonth = today.getMonth();
+    var minAgeDate = new Date(Date.UTC((todayYear - 18), todayMonth, todayDate,0,0,0,0));
+    //var dateBirthday = new Date(value.substring(6, 10) + "/" + value.substring(3, 5) + "/" + value.substring(0, 2));
+    var dateBirthday = new Date(value.substring(0, 4) + "/" + value.substring(5, 7) + "/" + value.substring(8, 10));
+
+    return dateBirthday <= minAgeDate;
+}, "Age should be over 18.");
+
+jQuery.validator.addMethod("CheckAge", function (value, element, param) {
+    //value format is dd/MM/yyyy 
+    if (value.length < 10) return false;
+    
+    var minAge = parseInt(param[0]);
+    var maxAge = parseInt(param[1]);
+    var effectiveDateStr = param[2];
+    //from DB format yyyy-MM-dd
+    var yy = parseInt(effectiveDateStr.substring(0, 4));
+    var mm = parseInt(effectiveDateStr.substring(5, 7)) - 1;
+    var dd = parseInt(effectiveDateStr.substring(8, 10));
+    //var effectiveDate = new Date(Date.UTC(yy, (mm - 1), dd));
+    
+    var minAgeDate = new Date(Date.UTC((yy - minAge), mm, dd,0,0,0,0));
+    var maxAgeDate = new Date(Date.UTC((yy - maxAge), mm, dd, 0, 0, 0, 0));
+    //var dateBirthday = new Date(value.substring(6, 10) + "/" + value.substring(3, 5) + "/" + value.substring(0, 2));
+    var dateBirthday = new Date(value.substring(0, 4) + "/" + value.substring(5, 7) + "/" + value.substring(8, 10));
+    
+    if (maxAge == -1) {
+        return (dateBirthday <= minAgeDate);
+    } else {
+        return ((dateBirthday <= minAgeDate) && !(dateBirthday <= maxAgeDate));
+    }
+    
+}, "Date of birth not in range.");
+
+// 专用于旅行保险的年龄校验，支持18岁最小年龄和包含边界逻辑
+jQuery.validator.addMethod("CheckAgeTravel", function (value, element, param) {
+    // value format: yyyy-MM-dd
+    if (value.length < 10) return false;
+
+    var minAgeYears = parseInt(param[0]); // 18 岁
+    var maxAgeYears = parseInt(param[1]);
+    var effectiveDateStr = param[2]; // yyyy-MM-dd
+
+    // 解析起保日（UTC）
+    var effY = parseInt(effectiveDateStr.substring(0, 4));
+    var effM = parseInt(effectiveDateStr.substring(5, 7)) - 1;
+    var effD = parseInt(effectiveDateStr.substring(8, 10));
+    var effectiveDateUtc = new Date(Date.UTC(effY, effM, effD, 0, 0, 0, 0));
+
+    // 解析生日（UTC，避免本地时区影响）
+    var dobY = parseInt(value.substring(0, 4));
+    var dobM = parseInt(value.substring(5, 7)) - 1;
+    var dobD = parseInt(value.substring(8, 10));
+    var dobUtc = new Date(Date.UTC(dobY, dobM, dobD, 0, 0, 0, 0));
+
+    // 按"年"判断最小年龄：生日 + minAgeYears 年 ≤ 起保日（含边界）
+    var minAgeDateUtc = new Date(Date.UTC(dobUtc.getUTCFullYear() + minAgeYears, dobUtc.getUTCMonth(), dobUtc.getUTCDate(), 0, 0, 0, 0));
+    var minAgeOk = effectiveDateUtc.getTime() >= minAgeDateUtc.getTime();
+
+    // 最大年龄按"日期比较"：起保日 ≤ 生日 + maxAge 年（含当天）
+    var maxAgeOk = true;
+    if (!isNaN(maxAgeYears) && maxAgeYears !== -1) {
+        var maxAgeDateUtc = new Date(Date.UTC(dobUtc.getUTCFullYear() + maxAgeYears, dobUtc.getUTCMonth(), dobUtc.getUTCDate(), 0, 0, 0, 0));
+        maxAgeOk = effectiveDateUtc.getTime() <= maxAgeDateUtc.getTime();
+    }
+
+    return minAgeOk && maxAgeOk;
+}, "Date of birth not in range.");
+
+//验证被保险人HKID 是否重复,param传入要验证的文本框个数
+jQuery.validator.addMethod("CheckRepeat", function (value, element, param) {
+    var arr = new Array();
+    var arr2 = new Array();
+
+    if ($("#ApplicantAndInsuredAreSame").val() == undefined) {
+        arr2.push("#HKID");
+        arr.push($("#HKID1").val().toUpperCase() + $("#HKID2").val());
+    }
+
+    var num = parseInt(param[0]);
+    var currHKID = param[1];
+
+    for (var i = 0; i < num; i++) {
+        if ($("#InsuredDetails_" + i + "__HKID1").val() != undefined) {
+            var hkID1 = $("#InsuredDetails_" + i + "__HKID1").val().toUpperCase();
+            var hkID2 = $("#InsuredDetails_" + i + "__HKID2").val();
+            arr2.push("#InsuredDetails_" + i + "__HKID");
+            arr.push(hkID1 + hkID2);
+        }
+    }
+
+    var isRepeat = false;
+    for (var i = 0; i < arr.length - 1; i++) {
+        if (arr2[i] != currHKID) {
+            if (arr[i] == value.toUpperCase()) {
+                isRepeat = true;
+            }
+        }
+    }
+
+    //!(/(\x0f[^\x0f]+)\x0f[\s\S]*\1/.test("\x0f" + arr.join("\x0f\x0f") + "\x0f"))
+    return this.optional(element) || !isRepeat;
+}, "HKID is repeat.")
+
+
+//验证被保险人HKID 是否重复,param传入要验证的文本框个数
+jQuery.validator.addMethod("BigDayCheckRepeat", function (value, element, param) {
+    var arr = new Array();
+    var arr2 = new Array();
+
+    if ($("#ApplicantAndInsuredAreSame").attr("checked") != "checked") {
+    arr2.push("#HKID");
+    arr.push($("#HKID1").val().toUpperCase() + $("#HKID2").val());
+    }
+
+    var num = parseInt(param[0]);
+    var currHKID = param[1];
+
+    for (var i = 0; i < num; i++) {
+        if ($("#InsuredDetails_" + i + "__HKID1").val() != undefined) {
+            var hkID1 = $("#InsuredDetails_" + i + "__HKID1").val().toUpperCase();
+            var hkID2 = $("#InsuredDetails_" + i + "__HKID2").val();
+            arr2.push("#InsuredDetails_" + i + "__HKID");
+            arr.push(hkID1 + hkID2);
+        }
+    }
+
+    var isRepeat = false;
+    for (var i = 0; i < arr.length - 1; i++) {
+        if (arr2[i] != currHKID) {
+            if (arr[i] == value.toUpperCase()) {
+                isRepeat = true;
+            }
+        }
+    }
+
+    //!(/(\x0f[^\x0f]+)\x0f[\s\S]*\1/.test("\x0f" + arr.join("\x0f\x0f") + "\x0f"))
+    return this.optional(element) || !isRepeat;
+}, "HKID is repeat.")
+
+jQuery.validator.addMethod("DependFieldMandatoryForText", function (value, element, param) {
+    if ($(param[0]).val() != "null") {
+        return jQuery.trim(value) != "";
+    }
+    else {
+        return true;
+    }
+}, "Please select a value.");
+
+jQuery.validator.addMethod("DependFieldMandatory", function (value, element, param) {
+    if ($(param[0]).val() != "null") {
+        return jQuery.trim(value) != "0";
+    }
+    else {
+        return true;
+    }
+}, "Please select a value.");
+
+jQuery.validator.addMethod("selectRequired", function (value, element) {
+    return value != "0";
+}, "Please select a value.");
+
+jQuery.validator.addMethod("selectValueMinLength", function (value, element, param) {
+    var minlength = param[0];
+    return value.length >= minlength;
+}, "select cannot min length.");
+
+jQuery.validator.addMethod("LessThanEqual", function (value, element, param) {
+    var targetValue = param[0].val();
+    if (!targetValue) {
+        return true;
+    }
+    return parseFloat(value) <= parseFloat(targetValue);
+}, "select must less than target.");
+
+jQuery.validator.addMethod("DependChekcBoxMandatoryForText", function (value, element, param) {
+    //var idChose = $("input[name='ReceivePromotionInfo2']:checked");
+    var idChose = $(param[0] + ":checked");
+    if (idChose.is(":checked")) {
+        return jQuery.trim(value) != "";
+    }
+    else {
+        return true;
+    }
+}, "Please Enter a value.");
+
+jQuery.validator.addMethod("passwordFormat", function (value, element) {
+    //    var re = /^(?!\D+$)(?![^a-z]+$)([^A-Z]+$)\S{8}$/;
+    //    return this.optional(element) || re.test(value);
+
+    if (value.length < 8 || value.length > 20) return false;
+
+    var reqMeetCnt = 0;
+
+    if (/[A-Z]/.test(value)) { reqMeetCnt += 1; }
+    if (/[a-z]/.test(value)) { reqMeetCnt += 1; }
+    if (/\d/.test(value)) { reqMeetCnt += 1; }
+    if (/[$-/:-?{-~!"^_`\[\]]/.test(value)) { reqMeetCnt += 1; }
+
+    return reqMeetCnt >= 3;
+
+}, "Please enter a valid password strength.");
+
+jQuery.validator.addMethod("rValidateTel", function (value, element) {
+    // 获取当前选择的国家
+    var country = jQuery(element).intlTelInput("getSelectedCountryData");
+        
+    // 如果是香港地区，使用自定义验证规则
+    if (country.iso2.toUpperCase() === "HK") {
+        // 自定义香港手机号码验证规则
+        var hkPattern = /^\d{4}\s?\d{4}$/;
+        return hkPattern.test(value);
+    }
+
+    // 其他地区使用默认验证
+    return jQuery(element).val().length == 0 || jQuery(element).intlTelInput("isValidNumber");
+}, "please input the valid phone number.");
+
+jQuery.validator.addMethod("validPrefix", function (value, element, param) {
+    if (jQuery.trim(value) != "")
+        value = value.toUpperCase();
+
+    var validPrefix = param[0];
+    var prefix = validPrefix.split(",");
+    for (var i = 0; i < prefix.length; i++) {
+        if (value.startsWith(prefix[i])) {
+            return true;
+        }
+    }
+    return false;
+}, "Please Enter a value.");
+
+jQuery.validator.addMethod("validAmount", function (value, element) {
+    if (value.length > 8) return false;
+
+    var reg = /^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/;
+    if (reg.test(value) == false)
+        return false;
+
+    if (parseFloat(value) > 20000)
+        return false;
+
+    return true;
+
+}, "please input the valid Amount.");
